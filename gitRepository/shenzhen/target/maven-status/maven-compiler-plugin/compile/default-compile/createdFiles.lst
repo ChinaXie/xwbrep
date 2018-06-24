@@ -1,0 +1,9 @@
+com\xwb\model\Person.class
+com\xwb\Controller\BasicController.class
+com\xwb\service\impl\PersonServiceImpl.class
+com\xwb\utils\Log4jTestDemo.class
+com\xwb\utils\JedisUtil.class
+com\xwb\service\PersonService.class
+com\xwb\common\CommonFilter.class
+com\xwb\mappers\PersonMapper.class
+com\xwb\utils\MongoConfig.class
