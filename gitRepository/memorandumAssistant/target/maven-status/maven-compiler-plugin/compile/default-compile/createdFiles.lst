@@ -1,0 +1,6 @@
+com\xwb\service\PersonService.class
+com\xwb\common\CommonFilter.class
+com\xwb\mappers\PersonMapper.class
+com\xwb\model\Person.class
+com\xwb\Controller\BasicController.class
+com\xwb\service\impl\PersonServiceImpl.class

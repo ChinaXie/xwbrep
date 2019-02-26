@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwb.mappers.PersonMapper" >
+  <resultMap id="BaseResultMap" type="com.xwb.model.Person" >
+    <id column="person_id" property="personId" jdbcType="INTEGER" />
+    <result column="person_name" property="personName" jdbcType="VARCHAR" />
+    <result column="person_sex" property="personSex" jdbcType="INTEGER" />
+    <result column="person_address" property="personAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    person_id, person_name, person_sex, person_address
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from person
+    where person_id = #{personId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from person
+    where person_id = #{personId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xwb.model.Person" >
+    insert into person (person_id, person_name, person_sex, 
+      person_address)
+    values (#{personId,jdbcType=INTEGER}, #{personName,jdbcType=VARCHAR}, #{personSex,jdbcType=INTEGER}, 
+      #{personAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwb.model.Person" >
+    insert into person
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="personId != null" >
+        person_id,
+      </if>
+      <if test="personName != null" >
+        person_name,
+      </if>
+      <if test="personSex != null" >
+        person_sex,
+      </if>
+      <if test="personAddress != null" >
+        person_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="personId != null" >
+        #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="personName != null" >
+        #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personSex != null" >
+        #{personSex,jdbcType=INTEGER},
+      </if>
+      <if test="personAddress != null" >
+        #{personAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwb.model.Person" >
+    update person
+    <set >
+      <if test="personName != null" >
+        person_name = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personSex != null" >
+        person_sex = #{personSex,jdbcType=INTEGER},
+      </if>
+      <if test="personAddress != null" >
+        person_address = #{personAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where person_id = #{personId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwb.model.Person" >
+    update person
+    set person_name = #{personName,jdbcType=VARCHAR},
+      person_sex = #{personSex,jdbcType=INTEGER},
+      person_address = #{personAddress,jdbcType=VARCHAR}
+    where person_id = #{personId,jdbcType=INTEGER}
+  </update>
+</mapper>
