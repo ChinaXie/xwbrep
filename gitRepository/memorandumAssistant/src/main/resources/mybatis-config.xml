@@ -6,7 +6,10 @@
 		<setting name="logImpl" value="STDOUT_LOGGING" />
 	</settings>  -->
 	<mappers>
-		<mapper resource="com/xwb/mappers/xml/PersonMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbCityMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbCountyMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbProvinceMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbUserMapper.xml"/>
 	</mappers>
 	
 </configuration>
