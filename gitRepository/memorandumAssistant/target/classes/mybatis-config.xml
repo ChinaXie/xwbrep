@@ -10,6 +10,7 @@
 		<mapper resource="com/xwb/mappers/xml/TbCountyMapper.xml"/>
 		<mapper resource="com/xwb/mappers/xml/TbProvinceMapper.xml"/>
 		<mapper resource="com/xwb/mappers/xml/TbUserMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbMemorandumMapper.xml"/>
 	</mappers>
 	
 </configuration>
