@@ -7,8 +7,11 @@ C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xw
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbCityMapper.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\Controller\MemorandumController.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbCountyMapper.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\impl\TbMemorandumServiceImpl.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\impl\TbUserServiceImpl.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\Controller\SysMnagerController.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbMemorandumMapper.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\EventObjectMode.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\common\CommonJob.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\common\SmsUtil.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbMemorandum.java
@@ -16,3 +19,4 @@ C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xw
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbProvince.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbProvinceMapper.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbUserMapper.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\TbMemorandumService.java

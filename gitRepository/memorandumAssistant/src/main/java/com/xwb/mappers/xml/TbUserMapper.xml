@@ -11,10 +11,11 @@
     <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
     <result column="county_coude" property="countyCoude" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, password, login_name, time, province_code, city_code, county_coude, 
-    remark
+    remark, phone
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -29,12 +30,12 @@
   <insert id="insert" parameterType="com.xwb.model.TbUser" >
     insert into tb_user (id, user_name, password, 
       login_name, time, province_code, 
-      city_code, county_coude, remark
-      )
+      city_code, county_coude, remark, 
+      phone)
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=INTEGER}, 
       #{loginName,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{provinceCode,jdbcType=VARCHAR}, 
-      #{cityCode,jdbcType=VARCHAR}, #{countyCoude,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+      #{cityCode,jdbcType=VARCHAR}, #{countyCoude,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xwb.model.TbUser" >
     insert into tb_user
@@ -66,6 +67,9 @@
       <if test="remark != null" >
         remark,
       </if>
+      <if test="phone != null" >
+        phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -94,6 +98,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -124,6 +131,9 @@
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -136,7 +146,37 @@
       province_code = #{provinceCode,jdbcType=VARCHAR},
       city_code = #{cityCode,jdbcType=VARCHAR},
       county_coude = #{countyCoude,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+   <select id="selectCountByPhone" resultType="java.lang.Integer" parameterType="com.xwb.model.TbUser" >
+    select count(id)
+    from tb_user
+    where 
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+   <select id="selectCountByPhoneLoginName" resultType="java.lang.Integer" parameterType="com.xwb.model.TbUser" >
+    select count(id)
+    from tb_user
+    where 
+      <if test="loginName != null and phone != null" >
+        login_name = #{loginName,jdbcType=VARCHAR} and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <select id="selectUser" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where 
+      <if test="loginName != null and password != null" >
+        login_name = #{loginName,jdbcType=VARCHAR} and password = #{password,jdbcType=INTEGER}
+      </if>
+  </select>
 </mapper>

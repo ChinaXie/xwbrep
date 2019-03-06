@@ -21,6 +21,8 @@ public class TbUser {
 
     private String remark;
 
+    private String phone;
+
     public Integer getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class TbUser {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 }

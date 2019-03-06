@@ -1,5 +1,6 @@
 package com.xwb.mappers;
 
+
 import com.xwb.model.TbProvince;
 
 public interface TbProvinceMapper {
@@ -14,4 +15,6 @@ public interface TbProvinceMapper {
     int updateByPrimaryKeySelective(TbProvince record);
 
     int updateByPrimaryKey(TbProvince record);
+    
+   
 }
