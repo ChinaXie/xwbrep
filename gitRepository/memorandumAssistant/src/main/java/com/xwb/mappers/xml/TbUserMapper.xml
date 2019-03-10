@@ -179,4 +179,10 @@
         login_name = #{loginName,jdbcType=VARCHAR} and password = #{password,jdbcType=INTEGER}
       </if>
   </select>
+  
+   <select id="selectAllUser" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+  </select>
 </mapper>

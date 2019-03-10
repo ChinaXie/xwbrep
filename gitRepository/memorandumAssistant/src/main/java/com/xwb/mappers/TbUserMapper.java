@@ -1,5 +1,7 @@
 package com.xwb.mappers;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.xwb.model.TbUser;
@@ -22,5 +24,7 @@ public interface TbUserMapper {
     Integer selectCountByPhoneLoginName(TbUser record);
     
     TbUser selectUser(@Param("loginName")String loginName,@Param("password")Integer password);
+    
+    List<TbUser> selectAllUser();
     
 }

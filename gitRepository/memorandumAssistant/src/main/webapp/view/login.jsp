@@ -8,32 +8,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>登陆页面</title>
+<title>MemorandumAssistant</title>
 <link rel="stylesheet" type="text/css" href="<%=basePath %>/view/css/login.css">
 <script type="text/javascript" src="<%=basePath %>/view/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=basePath %>/view/layer1.8/layer.min.js"></script> 
 <script type="text/javascript" src="<%=basePath %>/view/laypage/laypage.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            $(".name input").focus(function(){
-                $(this).prev("i").css({"background-image":"url(img/user2.png)"});
-            });
-            $(".name input").blur(function(){
-                $(this).prev("i").css({"background-image":"url(img/user1.png)"});
-            });
-            $(".password input").focus(function(){
-                $(this).prev("i").css({"background-image":"url(img/password2.png)"});
-            });
-            $(".password input").blur(function(){
-                $(this).prev("i").css({"background-image":"url(img/password1.png)"});
-            });
+<script type="text/javascript">
+    $(function(){
+        $(".name input").focus(function(){
+            $(this).prev("i").css({"background-image":"url(img/user2.png)"});
         });
-    </script>
+        $(".name input").blur(function(){
+            $(this).prev("i").css({"background-image":"url(img/user1.png)"});
+        });
+        $(".password input").focus(function(){
+            $(this).prev("i").css({"background-image":"url(img/password2.png)"});
+        });
+        $(".password input").blur(function(){
+            $(this).prev("i").css({"background-image":"url(img/password1.png)"});
+        });
+    });
+</script>
 </head>
 <body>
     <div class="container">
         <div class="wrap">
-            <header><em>Logo</em><span>╳╳╳技术有限公司</span><a href="<%=basePath %>/headpage/list.do">跳转至备忘录管理</a></header>
+            <header><em>MemorandumAssistant</em><span></span></header>
             <article>
                 <section>
                     <aside>
@@ -55,7 +55,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <div class="clear"></div>
                         </form>
                     </aside>
-                   
                 </section>               
             </article>
         </div>

@@ -6,11 +6,11 @@
     <result column="county_name" property="countyName" jdbcType="VARCHAR" />
     <result column="province_code" property="provinceCode" jdbcType="VARCHAR" />
     <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
-    <result column="county_coude" property="countyCoude" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, county_name, province_code, city_code, county_coude, remark
+    id, county_name, province_code, city_code, county_code, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,10 +24,10 @@
   </delete>
   <insert id="insert" parameterType="com.xwb.model.TbCounty" >
     insert into tb_county (id, county_name, province_code, 
-      city_code, county_coude, remark
+      city_code, county_code, remark
       )
     values (#{id,jdbcType=INTEGER}, #{countyName,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, 
-      #{cityCode,jdbcType=VARCHAR}, #{countyCoude,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      #{cityCode,jdbcType=VARCHAR}, #{countyCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.xwb.model.TbCounty" >
@@ -45,8 +45,8 @@
       <if test="cityCode != null" >
         city_code,
       </if>
-      <if test="countyCoude != null" >
-        county_coude,
+      <if test="countyCode != null" >
+        county_code,
       </if>
       <if test="remark != null" >
         remark,
@@ -65,8 +65,8 @@
       <if test="cityCode != null" >
         #{cityCode,jdbcType=VARCHAR},
       </if>
-      <if test="countyCoude != null" >
-        #{countyCoude,jdbcType=VARCHAR},
+      <if test="countyCode != null" >
+        #{countyCode,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -85,8 +85,8 @@
       <if test="cityCode != null" >
         city_code = #{cityCode,jdbcType=VARCHAR},
       </if>
-      <if test="countyCoude != null" >
-        county_coude = #{countyCoude,jdbcType=VARCHAR},
+      <if test="countyCode != null" >
+        county_code = #{countyCode,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -99,8 +99,32 @@
     set county_name = #{countyName,jdbcType=VARCHAR},
       province_code = #{provinceCode,jdbcType=VARCHAR},
       city_code = #{cityCode,jdbcType=VARCHAR},
-      county_coude = #{countyCoude,jdbcType=VARCHAR},
+      county_code = #{countyCode,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByProCityCode" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_county
+    where 
+     <if test="provinceCode != null" >
+        province_code = #{provinceCode,jdbcType=VARCHAR}
+     </if>
+     <if test="cityCode != null" >
+        and city_code = #{cityCode,jdbcType=VARCHAR}
+     </if>
+     
+  </select>
+  
+  <select id="selectByCode" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_county
+    where 
+    province_code = #{provinceCode,jdbcType=VARCHAR} 
+    and city_code = #{cityCode,jdbcType=VARCHAR}
+    and  county_code = #{countyCode,jdbcType=VARCHAR} 
+  </select>
 </mapper>

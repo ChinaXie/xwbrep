@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>注册页面</title>
+    <title>MemorandumAssistant</title>
     <link rel="stylesheet" type="text/css" href="<%=basePath %>/view/css/validform.css">
     <link rel="stylesheet" type="text/css" href="<%=basePath %>/view/css/regist.css">
     <script type="text/javascript" src="<%=basePath %>/view/js/jquery.min.js"></script>
@@ -112,9 +112,9 @@ function btnsubmit(){
 	if($.trim(password) == ""){
 		return;
 	}
-	alert("ssss");
 	$.ajax({
 		type:'post',
+		async:false,
 		url:"<%=basePath%>/sysManager/resitUser.do",
 		data:{
 			"password":password,

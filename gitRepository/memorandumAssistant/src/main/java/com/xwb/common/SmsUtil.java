@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
@@ -23,6 +25,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import net.sf.json.JSON;
@@ -147,7 +150,11 @@ public class SmsUtil {
 		 * 返回XML格式
 		 * @param city
 		 */
-		public static void getWeatherByHttpXML(String city) {
+		public static String getWeatherByHttpXML(String city) {
+			if(city == null || "".equals(city)) {
+				return null;
+			}
+			String jsonString = null;
 			String url = "http://wthrcdn.etouch.cn/WeatherApi?";
 			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("citykey", city));
@@ -160,18 +167,15 @@ public class SmsUtil {
 				
 				XMLSerializer xmlSerializer = new XMLSerializer();
 				JSON json = xmlSerializer.read(result);
-				System.out.println(json.toString());
-				/*JSONObject obj = JSONObject.parseObject(result);
-				if (obj != null && obj.getString("desc").equals("OK")) {
-					String str = obj.getString("data");
-					System.out.println(str);
-				} else {
-				}*/
+				if(json != null) {
+					jsonString = json.toString();
+				}
 	 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	 
+			
+			return jsonString;
 		}
 	 
 		private static String getJsonStringFromGZIP(HttpResponse response) {
@@ -224,6 +228,11 @@ public class SmsUtil {
 		System.out.println(sendSmsForHTTP(map)+"---------------------");*/
 		//System.out.println(sendSmsForHTTP(map));
 		//getWeatherByHttpJSON("101280601");
-		getWeatherByHttpXML("101280601");
+		
+		//String byHttpXML = getWeatherByHttpXML("101280601");
+		//System.out.println(byHttpXML);
+		//JSONObject weathers = (JSONObject) JSONObject.parse(byHttpXML);
+		//System.out.println(weathers);
+		
 	}
 }

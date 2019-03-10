@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath %>/view/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath %>/view/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath %>/view/css/iconfont/iconfont.css" rel="stylesheet" type="text/css" />
-<title>增加备忘事件</title>
+<title>MemorandumAssistant</title>
 <style type="text/css">
 
 </style>
@@ -117,6 +117,7 @@ function btnsubmit(){
 	
 	$.ajax({
 		type:'post',
+		async:false,
 		url:"<%=basePath%>/headpage/saveMemorandum.do",
 		data:{
 			"id":meid,

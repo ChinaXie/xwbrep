@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.xwb.model.TbUser;
 import com.xwb.service.TbUserService;
 
 @RequestMapping("/basic")
@@ -21,6 +22,15 @@ public class BasicController {
 	protected HttpServletResponse response;
 	
 	@Autowired
-	public TbUserService tbUserService; 
+	public TbUserService tbUserService;
+	
+	/**
+	 * 获取登陆用户
+	 * @return
+	 */
+	public TbUser getUserFromSession() {
+		TbUser tbUser = (TbUser) request.getSession().getAttribute("tbluser");
+		return tbUser;
+	}
 	
 }

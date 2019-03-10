@@ -9,7 +9,7 @@ public class TbCounty {
 
     private String cityCode;
 
-    private String countyCoude;
+    private String countyCode;
 
     private String remark;
 
@@ -45,12 +45,12 @@ public class TbCounty {
         this.cityCode = cityCode == null ? null : cityCode.trim();
     }
 
-    public String getCountyCoude() {
-        return countyCoude;
+    public String getCountyCode() {
+        return countyCode;
     }
 
-    public void setCountyCoude(String countyCoude) {
-        this.countyCoude = countyCoude == null ? null : countyCoude.trim();
+    public void setCountyCode(String countyCode) {
+        this.countyCode = countyCode == null ? null : countyCode.trim();
     }
 
     public String getRemark() {

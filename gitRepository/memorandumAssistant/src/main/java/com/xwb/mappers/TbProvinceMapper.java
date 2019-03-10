@@ -1,6 +1,8 @@
 package com.xwb.mappers;
 
 
+import java.util.List;
+
 import com.xwb.model.TbProvince;
 
 public interface TbProvinceMapper {
@@ -16,5 +18,5 @@ public interface TbProvinceMapper {
 
     int updateByPrimaryKey(TbProvince record);
     
-   
+    List<TbProvince> selectAll();
 }

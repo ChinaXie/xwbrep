@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwb.mappers.TbWeatherMapper" >
+  <resultMap id="BaseResultMap" type="com.xwb.model.TbWeather" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="wen_du" property="wenDu" jdbcType="VARCHAR" />
+    <result column="feng_li" property="fengLi" jdbcType="VARCHAR" />
+    <result column="shi_du" property="shiDu" jdbcType="VARCHAR" />
+    <result column="feng_xiang" property="fengXiang" jdbcType="VARCHAR" />
+    <result column="sun_rise" property="sunRise" jdbcType="VARCHAR" />
+    <result column="sun_set" property="sunSet" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, city_name, city_code, update_time, wen_du, feng_li, shi_du, feng_xiang, sun_rise, 
+    sun_set, add_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_weather
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_weather
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.xwb.model.TbWeather" >
+    insert into tb_weather (id, city_name, city_code, 
+      update_time, wen_du, feng_li, 
+      shi_du, feng_xiang, sun_rise, 
+      sun_set, add_time, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR}, #{wenDu,jdbcType=VARCHAR}, #{fengLi,jdbcType=VARCHAR}, 
+      #{shiDu,jdbcType=VARCHAR}, #{fengXiang,jdbcType=VARCHAR}, #{sunRise,jdbcType=VARCHAR}, 
+      #{sunSet,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwb.model.TbWeather" >
+    insert into tb_weather
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="wenDu != null" >
+        wen_du,
+      </if>
+      <if test="fengLi != null" >
+        feng_li,
+      </if>
+      <if test="shiDu != null" >
+        shi_du,
+      </if>
+      <if test="fengXiang != null" >
+        feng_xiang,
+      </if>
+      <if test="sunRise != null" >
+        sun_rise,
+      </if>
+      <if test="sunSet != null" >
+        sun_set,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="wenDu != null" >
+        #{wenDu,jdbcType=VARCHAR},
+      </if>
+      <if test="fengLi != null" >
+        #{fengLi,jdbcType=VARCHAR},
+      </if>
+      <if test="shiDu != null" >
+        #{shiDu,jdbcType=VARCHAR},
+      </if>
+      <if test="fengXiang != null" >
+        #{fengXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="sunRise != null" >
+        #{sunRise,jdbcType=VARCHAR},
+      </if>
+      <if test="sunSet != null" >
+        #{sunSet,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwb.model.TbWeather" >
+    update tb_weather
+    <set >
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="wenDu != null" >
+        wen_du = #{wenDu,jdbcType=VARCHAR},
+      </if>
+      <if test="fengLi != null" >
+        feng_li = #{fengLi,jdbcType=VARCHAR},
+      </if>
+      <if test="shiDu != null" >
+        shi_du = #{shiDu,jdbcType=VARCHAR},
+      </if>
+      <if test="fengXiang != null" >
+        feng_xiang = #{fengXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="sunRise != null" >
+        sun_rise = #{sunRise,jdbcType=VARCHAR},
+      </if>
+      <if test="sunSet != null" >
+        sun_set = #{sunSet,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwb.model.TbWeather" >
+    update tb_weather
+    set city_name = #{cityName,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      wen_du = #{wenDu,jdbcType=VARCHAR},
+      feng_li = #{fengLi,jdbcType=VARCHAR},
+      shi_du = #{shiDu,jdbcType=VARCHAR},
+      feng_xiang = #{fengXiang,jdbcType=VARCHAR},
+      sun_rise = #{sunRise,jdbcType=VARCHAR},
+      sun_set = #{sunSet,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectByCityCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_weather
+    where city_code = #{cityCode,jdbcType=VARCHAR}
+    order by add_time desc
+  </select>
+</mapper>

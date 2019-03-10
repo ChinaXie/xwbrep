@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwb.mappers.TbForecastMapper" >
+  <resultMap id="BaseResultMap" type="com.xwb.model.TbForecast" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="fore_cast_date" property="foreCastDate" jdbcType="VARCHAR" />
+    <result column="high_temp" property="highTemp" jdbcType="VARCHAR" />
+    <result column="low_temp" property="lowTemp" jdbcType="VARCHAR" />
+    <result column="day_type" property="dayType" jdbcType="VARCHAR" />
+    <result column="day_feng_xiang" property="dayFengXiang" jdbcType="VARCHAR" />
+    <result column="dat_feng_li" property="datFengLi" jdbcType="VARCHAR" />
+    <result column="night_type" property="nightType" jdbcType="VARCHAR" />
+    <result column="night_feng_xiang" property="nightFengXiang" jdbcType="VARCHAR" />
+    <result column="night_feng_li" property="nightFengLi" jdbcType="VARCHAR" />
+    <result column="weather_id" property="weatherId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, city_code, fore_cast_date, high_temp, low_temp, day_type, day_feng_xiang, dat_feng_li, 
+    night_type, night_feng_xiang, night_feng_li, weather_id, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_forecast
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_forecast
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xwb.model.TbForecast" >
+    insert into tb_forecast (id, city_code, fore_cast_date, 
+      high_temp, low_temp, day_type, 
+      day_feng_xiang, dat_feng_li, night_type, 
+      night_feng_xiang, night_feng_li, weather_id, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{cityCode,jdbcType=VARCHAR}, #{foreCastDate,jdbcType=VARCHAR}, 
+      #{highTemp,jdbcType=VARCHAR}, #{lowTemp,jdbcType=VARCHAR}, #{dayType,jdbcType=VARCHAR}, 
+      #{dayFengXiang,jdbcType=VARCHAR}, #{datFengLi,jdbcType=VARCHAR}, #{nightType,jdbcType=VARCHAR}, 
+      #{nightFengXiang,jdbcType=VARCHAR}, #{nightFengLi,jdbcType=VARCHAR}, #{weatherId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwb.model.TbForecast" >
+    insert into tb_forecast
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="foreCastDate != null" >
+        fore_cast_date,
+      </if>
+      <if test="highTemp != null" >
+        high_temp,
+      </if>
+      <if test="lowTemp != null" >
+        low_temp,
+      </if>
+      <if test="dayType != null" >
+        day_type,
+      </if>
+      <if test="dayFengXiang != null" >
+        day_feng_xiang,
+      </if>
+      <if test="datFengLi != null" >
+        dat_feng_li,
+      </if>
+      <if test="nightType != null" >
+        night_type,
+      </if>
+      <if test="nightFengXiang != null" >
+        night_feng_xiang,
+      </if>
+      <if test="nightFengLi != null" >
+        night_feng_li,
+      </if>
+      <if test="weatherId != null" >
+        weather_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="foreCastDate != null" >
+        #{foreCastDate,jdbcType=VARCHAR},
+      </if>
+      <if test="highTemp != null" >
+        #{highTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="lowTemp != null" >
+        #{lowTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="dayType != null" >
+        #{dayType,jdbcType=VARCHAR},
+      </if>
+      <if test="dayFengXiang != null" >
+        #{dayFengXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="datFengLi != null" >
+        #{datFengLi,jdbcType=VARCHAR},
+      </if>
+      <if test="nightType != null" >
+        #{nightType,jdbcType=VARCHAR},
+      </if>
+      <if test="nightFengXiang != null" >
+        #{nightFengXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="nightFengLi != null" >
+        #{nightFengLi,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherId != null" >
+        #{weatherId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwb.model.TbForecast" >
+    update tb_forecast
+    <set >
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="foreCastDate != null" >
+        fore_cast_date = #{foreCastDate,jdbcType=VARCHAR},
+      </if>
+      <if test="highTemp != null" >
+        high_temp = #{highTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="lowTemp != null" >
+        low_temp = #{lowTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="dayType != null" >
+        day_type = #{dayType,jdbcType=VARCHAR},
+      </if>
+      <if test="dayFengXiang != null" >
+        day_feng_xiang = #{dayFengXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="datFengLi != null" >
+        dat_feng_li = #{datFengLi,jdbcType=VARCHAR},
+      </if>
+      <if test="nightType != null" >
+        night_type = #{nightType,jdbcType=VARCHAR},
+      </if>
+      <if test="nightFengXiang != null" >
+        night_feng_xiang = #{nightFengXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="nightFengLi != null" >
+        night_feng_li = #{nightFengLi,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherId != null" >
+        weather_id = #{weatherId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwb.model.TbForecast" >
+    update tb_forecast
+    set city_code = #{cityCode,jdbcType=VARCHAR},
+      fore_cast_date = #{foreCastDate,jdbcType=VARCHAR},
+      high_temp = #{highTemp,jdbcType=VARCHAR},
+      low_temp = #{lowTemp,jdbcType=VARCHAR},
+      day_type = #{dayType,jdbcType=VARCHAR},
+      day_feng_xiang = #{dayFengXiang,jdbcType=VARCHAR},
+      dat_feng_li = #{datFengLi,jdbcType=VARCHAR},
+      night_type = #{nightType,jdbcType=VARCHAR},
+      night_feng_xiang = #{nightFengXiang,jdbcType=VARCHAR},
+      night_feng_li = #{nightFengLi,jdbcType=VARCHAR},
+      weather_id = #{weatherId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectTbForecasts" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_forecast
+    where weather_id = #{tbWeatherId,jdbcType=INTEGER}
+  </select>
+</mapper>

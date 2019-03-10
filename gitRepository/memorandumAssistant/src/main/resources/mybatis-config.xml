@@ -11,6 +11,9 @@
 		<mapper resource="com/xwb/mappers/xml/TbProvinceMapper.xml"/>
 		<mapper resource="com/xwb/mappers/xml/TbUserMapper.xml"/>
 		<mapper resource="com/xwb/mappers/xml/TbMemorandumMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbForecastMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbWeatherMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbZhishuMapper.xml"/>
 	</mappers>
 	
 </configuration>

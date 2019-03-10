@@ -77,7 +77,12 @@ public class CommonFilter implements Filter {
 		list.add("/view/images/icon_right_s.png");
 		list.add("/view/css/validform.css");
 		list.add("/view/css/regist.css");
-		list.add("/view/img/bj.gif");
+		list.add("/view/img/bj.gif");		
+		list.add("/view/css/login.css");
+		list.add("/view/laypage/laypage.js");
+		list.add("/view/layer1.8/layer.min.js");
+		list.add("/view/js/jquery.min.js");
+		list.add("/view/img/user.png");
 	}
 
 }

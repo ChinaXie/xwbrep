@@ -1,5 +1,9 @@
 package com.xwb.mappers;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.xwb.model.TbCity;
 
 public interface TbCityMapper {
@@ -14,4 +18,8 @@ public interface TbCityMapper {
     int updateByPrimaryKeySelective(TbCity record);
 
     int updateByPrimaryKey(TbCity record);
+    
+    List<TbCity> selectByProCode(@Param("proviceCode") String provinceCode);
+    
+    List<TbCity> selectCityNoProvince();
 }

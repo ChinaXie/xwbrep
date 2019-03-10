@@ -90,4 +90,18 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByProCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_city
+    where province_code = #{proviceCode,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectCityNoProvince" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_city
+    where city_code is null
+  </select>
 </mapper>
