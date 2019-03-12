@@ -110,4 +110,27 @@
 	    from tb_memorandum
 	    where user_Id = #{userId}
   </select>
+  <select id="findListByStartTime" resultMap="BaseResultMap" >
+  		select
+  		<include refid="Base_Column_List" />
+	    from tb_memorandum
+	    where user_Id = #{userId}
+	    <if test="currentTime != null and currentTime != ''">
+			<![CDATA[and start_time >=  CONCAT(#{currentTime},' 00:00:00') ]]>
+		</if>
+		
+		<if test="currentTime != null and currentTime !='' ">
+			<![CDATA[and start_time <  CONCAT(#{currentTime},' 23:59:59') ]]>
+		</if>
+  </select>
+  
+  <select id="findListByEndTime" resultMap="BaseResultMap" >
+  		select
+  		<include refid="Base_Column_List" />
+	    from tb_memorandum
+	    where user_Id = #{userId}
+	    <if test="currentTime != null and currentTime != ''">
+			<![CDATA[and end_time >=  CONCAT(#{currentTime},' 00:00:00') ]]>
+		</if>
+  </select>
 </mapper>

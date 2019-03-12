@@ -83,6 +83,15 @@ public class CommonFilter implements Filter {
 		list.add("/view/layer1.8/layer.min.js");
 		list.add("/view/js/jquery.min.js");
 		list.add("/view/img/user.png");
+		list.add("/view/layer1.8/skin/default/xubox_ico0.png");
+		list.add("/view/layer1.8/skin/layer.css");
+		list.add("/view/img/user1.png");
+		list.add("/view/img/bg.png");
+		list.add("/view/img/password1.png");
+		list.add("/view/js/Validform_v5.3.2.js");
+		list.add("/view/css/H-ui.min.css");
+		list.add("/view/My97DatePicker/WdatePicker.js");
+		list.add("/view/css/H-ui.admin.css");
 	}
 
 }

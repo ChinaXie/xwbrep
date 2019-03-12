@@ -18,5 +18,7 @@ public interface TbUserService {
 	void saveWeather(TbUser tbUser) throws Exception;
 	
 	void saveWeatherByAllUser() throws Exception;
-
+	
+	void sendMsg2Users();
+	
 }

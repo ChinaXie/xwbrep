@@ -1,9 +1,13 @@
 package com.xwb.service.impl;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +15,15 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xwb.Controller.SysMnagerController;
+import com.xwb.common.MMap;
 import com.xwb.common.SmsUtil;
 import com.xwb.mappers.TbForecastMapper;
+import com.xwb.mappers.TbMemorandumMapper;
 import com.xwb.mappers.TbUserMapper;
 import com.xwb.mappers.TbWeatherMapper;
 import com.xwb.mappers.TbZhishuMapper;
 import com.xwb.model.TbForecast;
+import com.xwb.model.TbMemorandum;
 import com.xwb.model.TbUser;
 import com.xwb.model.TbWeather;
 import com.xwb.model.TbZhishu;
@@ -36,6 +43,9 @@ public class TbUserServiceImpl implements TbUserService {
 	
 	@Autowired
 	private TbZhishuMapper tbZhishuMapper;
+	
+	@Autowired
+	private TbMemorandumMapper tbMemorandumMapper;
 	
 
 	public void addTbUser(TbUser tbUser) {
@@ -180,6 +190,52 @@ public class TbUserServiceImpl implements TbUserService {
 		if(allUser !=null && allUser.size()>0) {
 			for(TbUser tbUser:allUser) {
 				saveWeather(tbUser);
+			}
+		}
+	}
+
+	public void sendMsg2Users() {
+		List<TbUser> allUser = tbUserMapper.selectAllUser();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdftwo = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		 String currentTime = sdf.format(new Date());
+		if(allUser !=null && allUser.size()>0) {
+			for(TbUser tbUser:allUser) {
+				List<TbMemorandum> listByStartTime = tbMemorandumMapper.findListByStartTime(tbUser.getId().intValue(),currentTime);
+				List<TbMemorandum> listByEndTime = tbMemorandumMapper.findListByEndTime(tbUser.getId().intValue(), currentTime);
+				if(listByEndTime != null) {
+					listByEndTime.addAll(listByStartTime);
+					HashMap<Integer, MMap> allTbMemorandum = new HashMap<Integer, MMap>();
+					for(TbMemorandum tbMemorandum: listByEndTime) {
+						StringBuffer sbf = new StringBuffer();
+						MMap map = new MMap();
+						map.setObj1("252556");
+						map.setObj2("admin");
+						map.setObj3("wbxluna2046");
+						sbf.append(tbUser.getLoginName());
+						sbf.append("您好，您有");
+						sbf.append(sdftwo.format(tbMemorandum.getStartTime()));
+						sbf.append("记录的未办理事件：");
+						sbf.append(tbMemorandum.getTitleName());
+						sbf.append("需要办理。");
+						map.setObj4(sbf.toString());
+						map.setObj5(tbUser.getPhone());
+						map.setObj6("");
+						map.setObj7("");
+						map.setObj8("1");
+						map.setObj9("");
+						map.setObj10("");
+						allTbMemorandum.put(tbMemorandum.getId(), map);
+					}
+					
+					if(allTbMemorandum.size()>0) {
+						Set<Entry<Integer,MMap>> entrySet = allTbMemorandum.entrySet();
+						for(Entry<Integer,MMap> entrymodel : entrySet) {
+							MMap mMap = entrymodel.getValue();
+							System.out.println(SmsUtil.sendSmsForHTTP(mMap));
+						}
+					}
+				}
 			}
 		}
 	}

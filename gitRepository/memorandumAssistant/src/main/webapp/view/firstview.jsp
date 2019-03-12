@@ -110,7 +110,7 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
 			  		<li>${tbWeather.fengXiang}</li>
 			  		<li>${tbWeather.fengLi}</li>
 			  		<li><span>日出：</span>${tbWeather.sunRise}</li>
-		  			<li><span>日落</span>${tbWeather.sunSet}</li>
+		  			<li><span>日落：</span>${tbWeather.sunSet}</li>
 			  	</ul>
 		   	  </div>
 		 </c:if>

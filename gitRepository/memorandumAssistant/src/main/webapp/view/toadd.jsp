@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div class="row cl">
         <label class="form-label col-3"><span class="c-red">*</span>事件主题：</label>
         <div class="formControls col-5">
-               <input id="titleName" name="titleName" class="input-text" maxlength="100" datatype="*" nullmsg="事件主题不能为空" value=""/>
+               <input id="titleName" name="titleName" class="input-text" maxlength="35" datatype="*" nullmsg="事件主题不能为空" value=""/>
         </div>
         <div class="col-4"> </div>
       </div>

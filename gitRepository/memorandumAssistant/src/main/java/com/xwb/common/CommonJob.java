@@ -29,4 +29,16 @@ public class CommonJob{
 		}
     	System.out.println("定时器结束获取天气---------------------");
     }
+	
+	//@Scheduled(cron="0 */1 * * * ?")   //每分钟1次
+	@Scheduled(cron="0 0 1 * * ?")   //每天一点执行
+	public void sendMsgToUsers() {
+		System.out.println("定时器开始发送短信-------------");
+		try {
+			tbUserService.sendMsg2Users();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("定时器开始发送短信---------------------");
+	}
 }

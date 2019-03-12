@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <section>
                     <aside>
                         <em>
-                            <img src="img/user.png">
+                            <img src="../view/img/user.png">
                         </em>
                          <form action="" method="post">
                             <p class="name"><i></i><input type="text" name="loginName" id="loginName" class="userName" maxlength="10" placeholder="请输入用户名" oninput="value=value.replace(/[\W]/g,'')" ></p>

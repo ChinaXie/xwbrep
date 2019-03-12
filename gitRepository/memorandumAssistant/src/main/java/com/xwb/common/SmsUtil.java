@@ -43,19 +43,24 @@ public class SmsUtil {
 	
 
 	/**
-	 * 发送请求
-	 * @param mmap
-	 * @return
+	 * 
+		* 函 数 名 :sendSmsForHTTP 
+		* 功能描述：应用HTTP客户端发送短信。
+		* 参数描述: MMap mmap (obj1="企业编号",obj2="用户名称",obj3="用户密码",obj4="短信内容",obj5="手机号码(多个号码用”,”分隔)",obj6="流水号",obj7="预约发送时间(‘20090901010101’， 立即发送请填空)",obj8="提交时检测方式(1或0)",obj9="保留")
+		* 返回值  :String
+		* 创 建 人:xwb
+		* 日    期:2019-03-11
+		* 修 改 人: 
+		* 日    期:
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static String sendSmsForHTTP(MMap mmap){
 		DefaultHttpClient client = new DefaultHttpClient();
-		String url = "";
-		HttpPost post = new HttpPost(url);
-		//HttpGet	 gets = new HttpGet("http://wthrcdn.etouch.cn/weather_mini?citykey=101010100");
-		// 定义参数集合
+		HttpPost post = new HttpPost("http://gd.ums86.com:8899/sms/Api/Send.do");
+		// 设置请求实体
 		List params=new ArrayList();
-		// 封装请求参数
+		//添加参数
+		// 需要把参数放到NameValuePair
 		List<NameValuePair> paramPairs = new ArrayList<NameValuePair>();
 		paramPairs.add(new BasicNameValuePair("SpCode", (String)mmap.getObj1()));
 		paramPairs.add(new BasicNameValuePair("LoginName", (String)mmap.getObj2()));
@@ -66,28 +71,28 @@ public class SmsUtil {
 		paramPairs.add(new BasicNameValuePair("ScheduleTime", (String)mmap.getObj7()));
 		paramPairs.add(new BasicNameValuePair("ExtendAccessNum", (String)mmap.getObj8()));
 		paramPairs.add(new BasicNameValuePair("f", (String)mmap.getObj9()));
-				//对参数进行编码格式
+				// 对请求参数进行编码，得到实体数据
 				UrlEncodedFormEntity entitydata;
 				try {
 					entitydata = new UrlEncodedFormEntity(paramPairs, "gbk");
 					post.setEntity(entitydata);
 					try {
-						//System.out.println(entitydata);
+						System.out.println(entitydata);
 						HttpResponse response = client.execute(post);
-						// 解析响应信息
+						// 从状态行中获取状态码，判断响应码是否符合要求
 						int statusCode = response.getStatusLine().getStatusCode();
 						if (statusCode == 200) {
 							HttpEntity entity = response.getEntity();
 							InputStream inputStream = entity.getContent();
 							InputStreamReader inputStreamReader = new InputStreamReader(
-									inputStream,"UTF-8");
-							BufferedReader reader = new BufferedReader(inputStreamReader);
+									inputStream);
+							BufferedReader reader = new BufferedReader(inputStreamReader);// 读字符串用的。
 							String s;
 							String responseData = "";
 							while (((s = reader.readLine()) != null)) {
 								responseData += s;
 							}
-							reader.close();//判断返回信息
+							reader.close();// 关闭输入流
 							if(responseData!=null &&!"".equals(responseData)){
 								String[] split = responseData.split("&");
 								String str = split[0];
@@ -234,5 +239,46 @@ public class SmsUtil {
 		//JSONObject weathers = (JSONObject) JSONObject.parse(byHttpXML);
 		//System.out.println(weathers);
 		
+		
+		/*MMap map = new MMap();
+		map.setObj1("216867");
+		map.setObj2("admin2");
+		map.setObj3("nkj390121");
+		map.setObj1("");
+		map.setObj2("test");
+		map.setObj3("");
+		
+		//map.setObj4("各镇区信息员：大家好！test已下发，请于2014-11-11前登录中山市农情统计分析系统，填写报表并上报。");
+		map.setObj4("您好,欢迎登陆中山市土肥信息管理平台,详情请登录中山土肥信息管理平台。");
+		//map.setObj4("您好！农业报表已审核通过，请登录中山市农情统计分析系统，查看报表。");
+		//map.setObj4("您好！大家好已驳回，请登录中山市农情统计分析系统，重新填报。");
+		map.setObj5("18515189102");
+		map.setObj6("");
+		map.setObj7("");
+		map.setObj8("1");
+		map.setObj9("");
+		map.setObj10("");
+		System.out.println(sendSmsForHTTP(map)+"---------------------");
+		//System.out.println(sendSmsForHTTP(map));
+*/		
+		StringBuffer sbf = new StringBuffer();
+		MMap map = new MMap();
+		map.setObj1("252556");
+		map.setObj2("admin");
+		map.setObj3("wbxluna2046");
+		sbf.append("xwb");
+		sbf.append(" 您好，您有");
+		sbf.append("2019-3-12 13:42");
+		sbf.append("记录的未办理事件：");
+		sbf.append("下午去苍山钓鱼");
+		sbf.append("需要办理。");
+		map.setObj4(sbf.toString());
+		map.setObj5("18515189102");
+		map.setObj6("");
+		map.setObj7("");
+		map.setObj8("1");
+		map.setObj9("");
+		map.setObj10("");
+		System.out.println(sendSmsForHTTP(map)+"---------------------");
 	}
 }
