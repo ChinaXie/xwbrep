@@ -160,26 +160,29 @@ public class SmsUtil {
 				return null;
 			}
 			String jsonString = null;
+			//中国天气网接口地址
 			String url = "http://wthrcdn.etouch.cn/WeatherApi?";
+			//封装城市编码参数
 			ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("citykey", city));
+			//对参数进行编码
 			String param = URLEncodedUtils.format(params, "utf-8");
 			HttpGet httpGet = new HttpGet(url+param);
 			HttpClient httpClient = new DefaultHttpClient();
 			try {
+				//HttpClient执行发送请求
 				HttpResponse httpResponse = httpClient.execute(httpGet);
-				String result = getJsonStringFromGZIP(httpResponse);// 获取到解压缩之后的字符串
-				
+				// 获取到解压缩之后的字符串
+				String result = getJsonStringFromGZIP(httpResponse);
 				XMLSerializer xmlSerializer = new XMLSerializer();
+				//解析返回参数中的xml字符串，转换为JSON格式
 				JSON json = xmlSerializer.read(result);
 				if(json != null) {
 					jsonString = json.toString();
 				}
-	 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 			return jsonString;
 		}
 	 

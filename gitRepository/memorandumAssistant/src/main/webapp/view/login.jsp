@@ -91,25 +91,25 @@ function btnsubmit(){
 	
 	$.ajax({
 		type:'post',
-		async:false,
 		url:"<%=basePath%>/sysManager/login.do",
 		data:{
 			"loginName":loginName,
 			"password":password,
 			"authcode":authcode
 		},
-		success:function(data){
-			if(data == "1"){
-				layer.msg('用户名和密码错误');
+		success:function(dataresp){
+			if(dataresp == "1"){
+				layer.msg('用户名或密码错误');
 				<%-- setTimeout(go2pageNum("<%=basePath %>/view/login.jsp"), 3000); --%>
 				return ;
-			}else if(data == "3"){
+			}else if(dataresp == "3"){
 				layer.msg('验证码错误');				
 				<%-- setTimeout(go2pageNum("<%=basePath %>/view/login.jsp"), 3000); --%>
 				return ;
+			}else if(dataresp == "2"){
+				layer.msg("操作成功",'1','1');
+				setTimeout(go2pageNum("<%=basePath %>/headpage/list.do"), 5000);
 			}
-			layer.msg("操作成功",'1','1');
-			setTimeout(go2pageNum("<%=basePath %>/headpage/list.do"), 5000);
 		},
 		error:function(){
 			layer.msg('操作失败');

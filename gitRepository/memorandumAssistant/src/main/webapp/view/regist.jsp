@@ -114,24 +114,23 @@ function btnsubmit(){
 	}
 	$.ajax({
 		type:'post',
-		async:false,
 		url:"<%=basePath%>/sysManager/resitUser.do",
 		data:{
 			"password":password,
 			"loginName":userName,
 			"phone":phone
 		},
-		success:function(data){
-			if(data == "0"){
+		success:function(dataresp){
+			if(dataresp == "0"){
 				layer.msg('操作失败');
 				return ;
-			}
-			if(data == "2"){
+			}else if(dataresp == "2"){
 				layer.msg('手机号或者和用户名重复');
 				return ;
+			}else if(dataresp == "1"){
+				layer.msg("操作成功",'1','1');
+				setTimeout(go2pageNum(), 1000);
 			}
-			layer.msg("操作成功",'1','1');
-			setTimeout(go2pageNum(), 1000);
 		},
 		error:function(){
 			layer.msg('操作失败');

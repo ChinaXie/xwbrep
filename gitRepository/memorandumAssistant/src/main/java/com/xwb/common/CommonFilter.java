@@ -92,6 +92,7 @@ public class CommonFilter implements Filter {
 		list.add("/view/css/H-ui.min.css");
 		list.add("/view/My97DatePicker/WdatePicker.js");
 		list.add("/view/css/H-ui.admin.css");
+		list.add("/sysManager/resitUser.do");
 	}
 
 }

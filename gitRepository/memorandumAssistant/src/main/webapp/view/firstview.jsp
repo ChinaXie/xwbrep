@@ -191,16 +191,16 @@ function showRegion(){
 function logout(){
 	$.ajax({
 		type:'post',
-		async:false,
 		url:"<%=basePath%>/sysManager/logout.do",
 		data:{
 			"userId":'${user_key}'
 		},
-		success:function(data){
-			if(data == "0"){
+		success:function(dataresp){
+			if(dataresp == "0"){
 				return ;
+			}else if(dataresp == "1"){
+				setTimeout(goHome(), 1000);
 			}
-			setTimeout(goHome(), 1000);
 		},
 		error:function(){
 			layer.msg('操作失败');

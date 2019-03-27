@@ -41,7 +41,7 @@ public class SysMnagerController extends BasicController{
 	@RequestMapping(value = "/resitUser",method=RequestMethod.POST)
 	@ResponseBody
 	public String registUser(TbUser tbUser) {
-		//检查重复
+		//检查用户名和手机号重复
 		String checkRepeat = tbUserService.checkRepeat(tbUser);
 		if(checkRepeat.equals(SysMnagerController.RESULT_STATUS_ERROR)) {
 			return SysMnagerController.RESULT_STATUS_ERROR;
@@ -50,12 +50,13 @@ public class SysMnagerController extends BasicController{
 		}
 		
 		try {
+			//持久化注册用户对象
 			tbUserService.addTbUser(tbUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return SysMnagerController.RESULT_STATUS_ERROR;
 		}
-		
+		//返回结果
 		return SysMnagerController.RESULT_STATUS_OK;
 	}
 	
