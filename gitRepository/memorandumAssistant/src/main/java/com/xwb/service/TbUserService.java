@@ -21,4 +21,6 @@ public interface TbUserService {
 	
 	void sendMsg2Users();
 	
+	void getCodeSave();
+	
 }

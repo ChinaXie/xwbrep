@@ -32,6 +32,13 @@ public class SysMnagerController extends BasicController{
 		return "/regist";
 	}
 	
+	@RequestMapping("/getCodeSave")
+	@ResponseBody
+	public String getCodeSave() {
+		tbUserService.getCodeSave();
+		return "OK";
+	}
+	
 	
 	/**
 	 * 注册用户

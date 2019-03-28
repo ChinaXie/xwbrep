@@ -17,13 +17,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.xwb.Controller.SysMnagerController;
 import com.xwb.common.MMap;
 import com.xwb.common.SmsUtil;
+import com.xwb.mappers.TbCityMapper;
+import com.xwb.mappers.TbCountyMapper;
 import com.xwb.mappers.TbForecastMapper;
 import com.xwb.mappers.TbMemorandumMapper;
+import com.xwb.mappers.TbProvinceMapper;
 import com.xwb.mappers.TbUserMapper;
 import com.xwb.mappers.TbWeatherMapper;
 import com.xwb.mappers.TbZhishuMapper;
+import com.xwb.model.TbCity;
+import com.xwb.model.TbCounty;
 import com.xwb.model.TbForecast;
 import com.xwb.model.TbMemorandum;
+import com.xwb.model.TbProvince;
 import com.xwb.model.TbUser;
 import com.xwb.model.TbWeather;
 import com.xwb.model.TbZhishu;
@@ -46,6 +52,12 @@ public class TbUserServiceImpl implements TbUserService {
 	
 	@Autowired
 	private TbMemorandumMapper tbMemorandumMapper;
+	@Autowired
+	private TbProvinceMapper tbProvinceMapper;
+	@Autowired
+	private TbCityMapper tbCityMapper;
+	@Autowired
+	private TbCountyMapper tbCountyMapper;
 	
 
 	public void addTbUser(TbUser tbUser) {
@@ -238,6 +250,25 @@ public class TbUserServiceImpl implements TbUserService {
 				}
 			}
 		}
+	}
+
+	public void getCodeSave() {
+		List<TbProvince> plist = SmsUtil.readTxtFileP("classpath:code.txt");
+		List<TbCity> clist = SmsUtil.readTxtFileC("classpath:citycode.txt");
+		List<TbCounty> list = SmsUtil.readTxtFileCount("classpath:citycode.txt");
+		
+		for(TbProvince pmodel: plist) {
+			tbProvinceMapper.insert(pmodel);
+		}
+		
+		for(TbCity cmodel: clist) {
+			tbCityMapper.insert(cmodel);		
+		}
+		
+		for(TbCounty countmodel: list) {
+			tbCountyMapper.insert(countmodel);
+		}
+		
 	}
 
 }

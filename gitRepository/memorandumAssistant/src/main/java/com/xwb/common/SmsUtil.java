@@ -2,7 +2,8 @@ package com.xwb.common;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
@@ -24,9 +26,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.util.ResourceUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xwb.model.TbCity;
+import com.xwb.model.TbCounty;
+import com.xwb.model.TbProvince;
 
 import net.sf.json.JSON;
 import net.sf.json.xml.XMLSerializer;
@@ -223,6 +229,115 @@ public class SmsUtil {
 		private static int getShort(byte[] data) {
 			return (int) ((data[0] << 8) | data[1] & 0xFF);
 		}
+		
+		
+		public static List<TbProvince> readTxtFileP(String filePath){ 
+			List<TbProvince> list = new ArrayList<TbProvince>();
+		    try {
+			        String encoding="utf-8"; 
+			        //File file=new File(filePath);
+			        File file = ResourceUtils.getFile(filePath);
+			        if(file.isFile() && file.exists()){ //判断文件是否存在 
+				          InputStreamReader read = new InputStreamReader( 
+				          new FileInputStream(file),encoding);//考虑到编码格式 
+				          BufferedReader bufferedReader = new BufferedReader(read); 
+				          String lineTxt = null; 
+				          while((lineTxt = bufferedReader.readLine()) != null){ 
+				            System.out.println(lineTxt);
+				            String[] split = lineTxt.split("=");
+				            String codestrs = split[0];
+				            String pcode = codestrs.substring(0, 5);
+				            TbProvince tbProvince = new TbProvince();
+				            tbProvince.setProvinceCode(pcode);
+				            tbProvince.setProvinceName(split[1]);
+				            list.add(tbProvince);
+				          } 
+				          read.close(); 
+				    }else{ 
+				      System.out.println("找不到指定的文件"); 
+				    } 
+		    } catch (Exception e) { 
+		      System.out.println("读取文件内容出错"); 
+		      e.printStackTrace(); 
+		    }
+		    return list;
+		  }
+		
+		public static List<TbCity> readTxtFileC(String filePath){ 
+			List<TbCity> list = new ArrayList<TbCity>();
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		    try {
+			        String encoding="utf-8"; 
+			        //File file=new File(filePath);
+			        File file = ResourceUtils.getFile(filePath);
+			        if(file.isFile() && file.exists()){ //判断文件是否存在 
+				          InputStreamReader read = new InputStreamReader( 
+				          new FileInputStream(file),encoding);//考虑到编码格式 
+				          BufferedReader bufferedReader = new BufferedReader(read); 
+				          String lineTxt = null; 
+				          while((lineTxt = bufferedReader.readLine()) != null){ 
+				            System.out.println(lineTxt);
+				            String[] split = lineTxt.split("=");
+				            String codestrs = split[0];
+				            String pcode = codestrs.substring(0, 5);
+				            String ccode = codestrs.substring(5, 7);
+				            if(hashMap.get(pcode+ccode+"") == null) {
+				            	TbCity tbProvince = new TbCity();
+					            tbProvince.setProvinceCode(pcode);
+					            tbProvince.setCityCode(ccode);
+					            tbProvince.setCityName(split[1]);
+					            list.add(tbProvince);
+					            hashMap.put(pcode+ccode+"", tbProvince);
+				            }
+				            
+				          } 
+				          read.close(); 
+				    }else{ 
+				      System.out.println("找不到指定的文件"); 
+				    } 
+		    } catch (Exception e) { 
+		      System.out.println("读取文件内容出错"); 
+		      e.printStackTrace(); 
+		    }
+		    return list;
+		  }
+		
+		
+		public static List<TbCounty> readTxtFileCount(String filePath){ 
+			List<TbCounty> list = new ArrayList<TbCounty>();
+		    try {
+			        String encoding="utf-8"; 
+			        //File file=new File(filePath);
+			        File file = ResourceUtils.getFile(filePath);
+			        if(file.isFile() && file.exists()){ //判断文件是否存在 
+				          InputStreamReader read = new InputStreamReader( 
+				          new FileInputStream(file),encoding);//考虑到编码格式 
+				          BufferedReader bufferedReader = new BufferedReader(read); 
+				          String lineTxt = null; 
+				          while((lineTxt = bufferedReader.readLine()) != null){ 
+				            System.out.println(lineTxt);
+				            String[] split = lineTxt.split("=");
+				            String codestrs = split[0];
+				            String pcode = codestrs.substring(0, 5);
+				            String ccode = codestrs.substring(5, 7);
+				            String countycode = codestrs.substring(7, codestrs.length());
+				            TbCounty tbProvince = new TbCounty();
+				            tbProvince.setProvinceCode(pcode);
+				            tbProvince.setCityCode(ccode);
+				            tbProvince.setCountyCode(countycode);
+				            tbProvince.setCountyName(split[1]);
+				            list.add(tbProvince);
+				          } 
+				          read.close(); 
+				    }else{ 
+				      System.out.println("找不到指定的文件"); 
+				    } 
+		    } catch (Exception e) { 
+		      System.out.println("读取文件内容出错"); 
+		      e.printStackTrace(); 
+		    }
+		    return list;
+		  }
 	
 
 
@@ -264,7 +379,7 @@ public class SmsUtil {
 		System.out.println(sendSmsForHTTP(map)+"---------------------");
 		//System.out.println(sendSmsForHTTP(map));
 */		
-		StringBuffer sbf = new StringBuffer();
+		/*StringBuffer sbf = new StringBuffer();
 		MMap map = new MMap();
 		map.setObj1("252556");
 		map.setObj2("admin");
@@ -282,6 +397,9 @@ public class SmsUtil {
 		map.setObj8("1");
 		map.setObj9("");
 		map.setObj10("");
-		System.out.println(sendSmsForHTTP(map)+"---------------------");
+		System.out.println(sendSmsForHTTP(map)+"---------------------");*/
+		
+		readTxtFileP("classpath:code.txt");
+		
 	}
 }
