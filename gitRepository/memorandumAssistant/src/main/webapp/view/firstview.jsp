@@ -61,6 +61,29 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
   
   
 </script>
+ <script type="text/javascript"> 
+	    //纵向滚动 需要设置div的高度
+	     var speed=30 
+	     $("#mpb").html($("#mpa").html());
+	    var sval=0;
+	   function Marquee(){
+	         if($("#demo").scrollTop()>=$("#mpa").height()){ 
+	        	 $("#demo").scrollTop(0); 
+	         }else{ 
+	        	 $("#demo").scrollTop($("#demo").scrollTop()+1);
+	        	 
+	         }
+	        if(sval == $("#demo").scrollTop()){
+				   $("#demo").scrollTop(0);
+			 }else{
+				 sval =  $("#demo").scrollTop();
+			 }
+	      } 
+	     var MyMar=setInterval(Marquee,speed); 
+	    //$("#demo").bind("onmouseover",function() {clearInterval(MyMar)}); 
+		// $("#demo").bind("onmouseout",function() {MyMar=setInterval(Marquee,speed)});
+	 
+ </script>
 <style>
 
   body {
@@ -78,6 +101,15 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
 </style>
 </head>
 <body>
+<div id="demo" style="OVERFLOW: hidden; height: 25px;">
+	  <div id="mpa">
+	    <c:forEach items="${tbZhishuList}" var="zmodel">
+	    	${zmodel.infoDetail}<br/>
+	    </c:forEach>
+	 </div>        
+	 <div id="mpb" valign="top">
+	 </div>
+ </div>
 <div id="headWrap">
  <div id="headpanel" style="width: 100%;border-bottom: none;">
   <div id="logo" style="float: left;width: 20%;"><h1>dusky</h1></div>
