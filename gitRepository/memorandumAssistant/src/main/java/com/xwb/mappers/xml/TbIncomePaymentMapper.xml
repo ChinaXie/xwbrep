@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwb.mappers.TbIncomePaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.xwb.model.TbIncomePayment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="desc_detail" property="descDetail" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="cost_num" property="costNum" jdbcType="DOUBLE" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, desc_detail, type, cost_num, add_time, user_id, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_income_payment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_income_payment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xwb.model.TbIncomePayment" >
+    insert into tb_income_payment (id, desc_detail, type, 
+      cost_num, add_time, user_id, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{descDetail,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{costNum,jdbcType=DOUBLE}, #{addTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xwb.model.TbIncomePayment" >
+    insert into tb_income_payment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="descDetail != null" >
+        desc_detail,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="costNum != null" >
+        cost_num,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="descDetail != null" >
+        #{descDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="costNum != null" >
+        #{costNum,jdbcType=DOUBLE},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xwb.model.TbIncomePayment" >
+    update tb_income_payment
+    <set >
+      <if test="descDetail != null" >
+        desc_detail = #{descDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="costNum != null" >
+        cost_num = #{costNum,jdbcType=DOUBLE},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xwb.model.TbIncomePayment" >
+    update tb_income_payment
+    set desc_detail = #{descDetail,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      cost_num = #{costNum,jdbcType=DOUBLE},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectByUserId" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_income_payment
+    where user_id = #{userId,jdbcType=INTEGER}
+    and status = #{status,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findVisitorList" parameterType="com.xwb.model.TbIncomePaymentDto" resultMap="BaseResultMap">
+ 		select 
+	    <include refid="Base_Column_List" />
+	    from tb_income_payment
+	  <where>
+	  		<if test="tbIncomePayment.userId != null">
+  			  			user_id=#{tbIncomePayment.userId,jdbcType=INTEGER}  
+  			  	</if>
+  			  	<if test="tbIncomePayment.status != null">
+  			  			and status = #{tbIncomePayment.status,jdbcType=INTEGER}
+  			  	</if>
+  			  	<if test="tbIncomePayment.type != null">
+  			  			and type = #{tbIncomePayment.type,jdbcType=INTEGER}
+  			  	</if>
+  			  
+   		   <if test="beginDate != null and beginDate != ''">
+		        	<![CDATA[	and add_time >=  #{beginDate} ]]>
+			</if>
+
+			<if test="endDate != null and endDate !='' ">
+			    <![CDATA[    and add_time <  #{endDate} ]]>
+			</if>
+		</where>
+ 		 order by id desc 
+ 		<if test="pageDTO != null">
+		  limit #{pageDTO.beginCount},#{pageDTO.pageSize}
+        </if>
+   </select>
+
+
+	<select id="findVisitorCount" parameterType="com.xwb.model.TbIncomePaymentDto" resultType="int">
+ 	 select count(1)
+	  from tb_income_payment
+	  <where>
+	  		<if test="tbIncomePayment.userId != null">
+  			  			user_id=#{tbIncomePayment.userId,jdbcType=INTEGER}  
+  			  	</if>
+  			  	<if test="tbIncomePayment.status != null">
+  			  			and status = #{tbIncomePayment.status,jdbcType=INTEGER}
+  			  	</if>
+  			  	<if test="tbIncomePayment.type != null">
+  			  			and type = #{tbIncomePayment.type,jdbcType=INTEGER}
+  			  	</if>
+  			  
+   		   <if test="beginDate != null and beginDate != ''">
+		        	<![CDATA[	and add_time >=  #{beginDate} ]]>
+			</if>
+
+			<if test="endDate != null and endDate !='' ">
+			    <![CDATA[    and add_time <  #{endDate} ]]>
+			</if>
+		</where>
+   </select>
+   
+   
+   <select id="selectIncome" parameterType="com.xwb.model.TbIncomePaymentDto" resultType="Double">
+ 	 select sum(cost_num)
+	  from tb_income_payment
+	  <where>
+	      status = 1
+	  		<if test="tbIncomePayment.userId != null">
+  			  	 and user_id=#{tbIncomePayment.userId,jdbcType=INTEGER}  
+  			</if>
+   		   <if test="beginDate != null and beginDate != ''">
+		        	<![CDATA[	and add_time >=  #{beginDate} ]]>
+			</if>
+
+			<if test="endDate != null and endDate !='' ">
+			    <![CDATA[    and add_time <  #{endDate} ]]>
+			</if>
+		</where>
+   </select>
+   
+    <select id="selectPayment" parameterType="com.xwb.model.TbIncomePaymentDto" resultType="Double">
+ 	 select sum(cost_num)
+	  from tb_income_payment
+	  <where>
+	      status = 2
+	  		<if test="tbIncomePayment.userId != null">
+  			  	 and user_id=#{tbIncomePayment.userId,jdbcType=INTEGER}  
+  			</if>
+   		   <if test="beginDate != null and beginDate != ''">
+		        	<![CDATA[	and add_time >=  #{beginDate} ]]>
+			</if>
+
+			<if test="endDate != null and endDate !='' ">
+			    <![CDATA[    and add_time <  #{endDate} ]]>
+			</if>
+		</where>
+   </select>
+  
+</mapper>

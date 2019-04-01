@@ -179,6 +179,8 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
    <ul>
     <li><a href="javaScript:goHome();">Home</a></li>
     <li><div class="gap"></div></li>
+    <li><a href="javaScript:showlist();" style="margin-left: 5%;" >AccountList</a></li>
+    <li><div class="gap"></div></li>
     <li><a href="javaScript:addM();" style="margin-left: 5%;" >AddMemorandum</a></li>
     <li><div class="gap"></div></li>
     <li><a href="javaScript:logout();" style="margin-left: 5%;" >logout</a></li>
@@ -205,6 +207,13 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
 
 function goHome(){
 	location.href="<%=basePath %>/headpage/list.do";
+}
+
+/**
+ * 显示账目清单信息
+ */
+function showlist(){
+	location.href="<%=basePath %>/accountinfo/list.do";
 }
 /**
  * 新增备忘事件

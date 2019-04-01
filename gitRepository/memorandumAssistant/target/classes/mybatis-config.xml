@@ -14,6 +14,7 @@
 		<mapper resource="com/xwb/mappers/xml/TbForecastMapper.xml"/>
 		<mapper resource="com/xwb/mappers/xml/TbWeatherMapper.xml"/>
 		<mapper resource="com/xwb/mappers/xml/TbZhishuMapper.xml"/>
+		<mapper resource="com/xwb/mappers/xml/TbIncomePaymentMapper.xml"/>
 	</mappers>
 	
 </configuration>

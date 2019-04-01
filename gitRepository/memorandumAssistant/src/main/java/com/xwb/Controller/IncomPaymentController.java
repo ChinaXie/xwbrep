@@ -1,83 +1,56 @@
 package com.xwb.Controller;
 
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.EventObject;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
-import com.xwb.model.EventObjectMode;
+import com.xwb.common.PageListDTO;
 import com.xwb.model.TbCity;
 import com.xwb.model.TbCounty;
 import com.xwb.model.TbForecast;
-import com.xwb.model.TbMemorandum;
+import com.xwb.model.TbIncomePayment;
+import com.xwb.model.TbIncomePaymentDto;
 import com.xwb.model.TbProvince;
 import com.xwb.model.TbUser;
 import com.xwb.model.TbWeather;
 import com.xwb.model.TbZhishu;
+import com.xwb.service.IncomePaymentService;
 import com.xwb.service.RegionService;
-import com.xwb.service.TbMemorandumService;
 import com.xwb.service.WeatherService;
 /**
- * 备忘录信息
+ * 收入支出控制器
  * @author xwb
  *
  */
-@RequestMapping("/headpage")
+@RequestMapping("/accountinfo")
 @Controller
-public class MemorandumController extends BasicController{
+public class IncomPaymentController extends BasicController{
 	
-	@Autowired
-	private TbMemorandumService tbMemorandumService;
 	@Autowired
 	private RegionService regionService;
 	@Autowired
 	private WeatherService weatherService;
+	@Autowired
+	private IncomePaymentService incomePaymentService;
 	
+	//收入标记
+	public static final int ACCOUNT_STATUS_INCOME = 1;
+	//支出标记
+	public static final int ACCOUNT_STATUS_PAYMENT = 2;
+	public static final String RESULT_STATUS_OK = "1";
+	public static final String RESULT_STATUS_ERROR = "0";
 	
-	/**
-	 * 跳转添加页面
-	 * @return
-	 */
-	@RequestMapping("/toAdd")
-	public String toAdd() {
-		
-		TbUser tbUser = getUserFromSession();
-		if(tbUser != null) {
-			request.setAttribute("user_key", tbUser.getId());
-		}
-		return "/toadd";				
-	}
+	private TbIncomePaymentDto dto = new TbIncomePaymentDto();
 	
 	/**
-	 * 跳转修改页面
-	 * @return
-	 */
-	@RequestMapping("/toEdit")
-	public String toEdit() {
-		String memorandumId = request.getParameter("memorandumId");
-		TbMemorandum tbMemorandum = null;
-		if(memorandumId != null && !"".equals(memorandumId)) {
-			tbMemorandum = tbMemorandumService.findOneById(Integer.parseInt(memorandumId));
-		}
-		request.setAttribute("tbMemorandum", tbMemorandum);
-		TbUser tbUser = getUserFromSession();
-		if(tbUser != null) {
-			request.setAttribute("user_key", tbUser.getId());
-		}
-		return "/toedit";
-	}
-	
-	/**
-	 * 备忘录信息展示
+	 * 备忘录信息修改
 	 * @return
 	 */
 	@SuppressWarnings("unlikely-arg-type")
@@ -85,10 +58,8 @@ public class MemorandumController extends BasicController{
 	public String listData() {
 		TbUser tbUser = getUserFromSession();
 		request.setAttribute("tbUser", tbUser);
-		List<TbMemorandum> lsit = null;
 		if(tbUser != null) {
 			request.setAttribute("user_key", tbUser.getId());
-			lsit = tbMemorandumService.findListByUserId(tbUser);
 			//查询城市地区
 			if(tbUser.getCountyCoude() != null) {
 				TbCounty county = regionService.findCountyByCode(tbUser.getProvinceCode(), tbUser.getCityCode(), tbUser.getCountyCoude());
@@ -104,31 +75,40 @@ public class MemorandumController extends BasicController{
 					request.setAttribute("tbZhishuList", tbZhishuList);
 				}
 			}
+			dto.getTbIncomePayment().setUserId(tbUser.getId());
 		}
 		
-		//查询备忘录事件
-		ArrayList<EventObjectMode> eventObjectModeList = new ArrayList<EventObjectMode>();
-		String path = request.getContextPath();
-		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
-		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		if(lsit != null) {
-			for(TbMemorandum tbMemorandum:lsit) {
-				EventObjectMode model = new EventObjectMode();
-				model.setTitle(tbMemorandum.getTitleName());
-				if(tbMemorandum.getStartTime() != null && !"".equals(tbMemorandum.getStartTime())) {
-					model.setStart(sdf1.format(tbMemorandum.getStartTime()));
-				}
-				if(tbMemorandum.getEndTime() != null && !"".equals(tbMemorandum.getEndTime())) {
-					model.setEnd(sdf1.format(tbMemorandum.getEndTime()));
-				}
-				model.setUrl("javaScript:layer_show('500','500','查看或修改备忘事件','"+basePath+"/headpage/toEdit.do?memorandumId="+tbMemorandum.getId()+"');");
-				eventObjectModeList.add(model);
-			}
+		String pageNum = request.getParameter("pager.offset");
+		String status = request.getParameter("status");
+		String type = request.getParameter("type");
+		String beginDate = request.getParameter("beginDate");
+		String endDate = request.getParameter("endDate");
+		dto.setBeginDate(beginDate);
+		dto.setEndDate(endDate);
+		if (pageNum != null) {
+			dto.getPageDTO().setBeginCount(Integer.parseInt(pageNum));
 		}
-		request.setAttribute("eventObjectModeList",JSONArray.toJSONString(eventObjectModeList));
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		request.setAttribute("defaultDate", sdf.format(new Date()));
-		return "/firstview";				
+		if(status != null &&!"".equals(status) ) {
+			dto.getTbIncomePayment().setStatus(Integer.parseInt(status));
+		}
+		if(type != null &&!"".equals(type) ) {
+			dto.getTbIncomePayment().setType(Integer.parseInt(type));
+		}
+		
+		// 默认查询全部
+		PageListDTO<TbIncomePayment> pageList = incomePaymentService.findTbIncomePaymentPageList(dto);
+		Double incomeValue = incomePaymentService.selectIncome(dto);
+		Double paymentValue = incomePaymentService.selectPayment(dto);
+		request.setAttribute("pageList", pageList);
+		request.setAttribute("dto",dto);
+		if(incomeValue != null) {
+			request.setAttribute("incomeValue", String.valueOf(incomeValue.doubleValue()));
+		}
+		if(paymentValue != null) {
+			request.setAttribute("paymentValue", String.valueOf(paymentValue.doubleValue()));
+		}
+		
+		return "/secondview";				
 	}
 	
 	
@@ -168,6 +148,19 @@ public class MemorandumController extends BasicController{
 		return "/tochoseregion";
 	}
 	
+	/**
+	 * 跳转至记账页面
+	 * @return
+	 */
+	@RequestMapping("/tocharge")
+	public String tocharge() {
+		
+		TbUser tbUser = getUserFromSession();
+		if(tbUser != null) {
+			request.setAttribute("user_key", tbUser.getId());
+		}
+		return "/chargetoaccount";				
+	}
 	
 	
 	/**
@@ -175,38 +168,46 @@ public class MemorandumController extends BasicController{
 	 * @param tbMemorandum
 	 * @return
 	 */
-	@RequestMapping("/saveMemorandum")
+	@RequestMapping("/saveIncomeAndPayment")
 	@ResponseBody
-	public String saveTbMemorandum(TbMemorandum tbMemorandum) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		String result = "1";
-		try {
-			if(tbMemorandum != null && tbMemorandum.getStartTimeStr() !=null && !"".equals(tbMemorandum.getStartTimeStr())) {
-				tbMemorandum.setStartTime(sdf.parse(tbMemorandum.getStartTimeStr()));
-			}
-			if(tbMemorandum != null && tbMemorandum.getEndTimeStr() !=null && !"".equals(tbMemorandum.getEndTimeStr())) {
-				tbMemorandum.setEndTime(sdf.parse(tbMemorandum.getEndTimeStr()));
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		if(tbMemorandum.getId() == null ) {
-			try {
-				tbMemorandumService.saveTbMemorandum(tbMemorandum);
-			} catch (Exception e) {
-				result = "0";
-				e.printStackTrace();
-			}
-			return result;
+	public String saveIncomeAndPayment(TbIncomePayment tbIncomePayment) {
+		TbUser tbUser = getUserFromSession();
+		String result = IncomPaymentController.RESULT_STATUS_OK;
+		tbIncomePayment.setAddTime(new Date());
+		if(tbUser != null) {
+			tbIncomePayment.setUserId(tbUser.getId());
 		}
 		try {
-			tbMemorandumService.updateTbMemorandum(tbMemorandum);
+			incomePaymentService.saveTbIncomePayment(tbIncomePayment);
 		} catch (Exception e) {
-			result = "0";
 			e.printStackTrace();
+			result = IncomPaymentController.RESULT_STATUS_ERROR;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 删除操作
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/delIncomeAndPayment")
+	@ResponseBody
+	public String delIncomeAndPayment(Integer id) {
+		String result = IncomPaymentController.RESULT_STATUS_OK;
+		if(id == null || "".equals(id)) {
+			return IncomPaymentController.RESULT_STATUS_ERROR;
+		}
+		try {
+			incomePaymentService.deleteTbIncomePayment(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = IncomPaymentController.RESULT_STATUS_ERROR;
 		}
 		return result;
 	}
+	
 	
 	
 }

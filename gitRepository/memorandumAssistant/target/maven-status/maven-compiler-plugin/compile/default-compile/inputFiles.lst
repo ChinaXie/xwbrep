@@ -1,12 +1,15 @@
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbForecast.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbForecastMapper.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbIncomePaymentMapper.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\RegionService.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\common\MMap.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\WeatherService.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbCity.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbZhishu.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\impl\IncomePaymentServiceImpl.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\Controller\MemorandumController.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\impl\TbMemorandumServiceImpl.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\common\PageListDTO.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\Controller\SysMnagerController.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbMemorandumMapper.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\common\CommonJob.java
@@ -14,9 +17,11 @@ C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xw
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbMemorandum.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbProvince.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbProvinceMapper.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbIncomePayment.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\TbMemorandumService.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\common\CommonFilter.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\impl\WeatherServiceImpl.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\common\PageDTO.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\Controller\BasicController.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbCounty.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbWeatherMapper.java
@@ -28,5 +33,8 @@ C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xw
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\impl\TbUserServiceImpl.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\EventObjectMode.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbUser.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\model\TbIncomePaymentDto.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\IncomePaymentService.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\mappers\TbUserMapper.java
+C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\Controller\IncomPaymentController.java
 C:\Users\gylu2\git\xwbrep\gitRepository\memorandumAssistant\src\main\java\com\xwb\service\impl\RegionServiceImpl.java
