@@ -385,7 +385,7 @@ function logout(){
 	if(id == ""){
 		return;
 	}
-    layer.confirm("确定要删除这条记录嚒？", {btn: ['确定', '取消'], title: "提示"}, function () {
+    layer.confirm("确定要删除这条记录嚒？", function () {
     	$.ajax({
 			type:'post',
 			url:"<%=basePath%>/accountinfo/delIncomeAndPayment.do",
