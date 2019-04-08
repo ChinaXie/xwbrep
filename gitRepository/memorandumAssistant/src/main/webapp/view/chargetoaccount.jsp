@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="show-frame-wrap">
     <form action="" method="post" class="form form-horizontal" name="searchForm" id="searchForm" onsubmit="">
     	<div class="row cl">
-        <label class="form-label col-4"><span class="c-red">*</span>类型：</label>
+        <label class="form-label col-4"><span class="c-red">*</span>开销类型：</label>
         <div class="formControls col-5">
                <select id="status" name="status" onchange="changeType();">
                	    <option value="1">收入</option>

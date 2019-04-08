@@ -33,17 +33,13 @@
 	int width = 55;
 	int height = 20;
 	BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
 	// 获取图形上下文
 	Graphics g = image.getGraphics();
-
 	// 设定背景色
 	g.setColor(getRandColor(200, 250));
 	g.fillRect(0, 0, width, height);
-
 	//设定字体
 	g.setFont(new Font("serif", Font.CENTER_BASELINE, 16));
-
 	// 随机产生100条干扰线
 	g.setColor(getRandColor(160, 200));
 	for (int i = 0; i < 100; i++) {
@@ -53,17 +49,14 @@
 		int yl = random.nextInt(12);
 		g.drawLine(x, y, x + xl, y + yl);
 	}
-
 	// 将认证码显示到图象中
 	for (int i = 0; i < 4; i++) {
 		String rand = sRand.substring(i, i + 1);
 		g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
 		g.drawString(rand, 13 * i + 6, 16);
 	}
-
 	// 图象生效
 	g.dispose();
-
 	// 输出图象到页面
 	try {
 		ImageIO.write(image, "JPEG", response.getOutputStream());

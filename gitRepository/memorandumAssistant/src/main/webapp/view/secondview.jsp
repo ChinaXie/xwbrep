@@ -214,8 +214,8 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
     <thead>    
       <tr class="text-c">
         <th>时间</th>
-        <th>类型</th>
-        <th >收入或支出类型</th>
+        <th>开销类型</th>
+        <th >事项类型</th>
         <th >描述</th>
         <th >费用</th>
         <th>操作</th>

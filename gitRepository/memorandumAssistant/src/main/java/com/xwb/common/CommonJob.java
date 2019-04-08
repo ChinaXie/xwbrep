@@ -17,10 +17,12 @@ public class CommonJob{
 	
 	@Autowired
 	public TbUserService tbUserService;
-    
+    /*
+     * cron表达式数值顺序表示：秒   分   时   日   月  年，*、?表示任意值	
+     * */
 	//@Scheduled(cron="0 */1 * * * ?")   //每分钟1次
 	@Scheduled(cron="0 0 */1 * * ?")   //每小时执行1次
-    public void deleteUserFiles (){
+    public void getWeatherByTime (){
     	System.out.println("定时器开始获取天气-------------");
     	try {
 			tbUserService.saveWeatherByAllUser();
