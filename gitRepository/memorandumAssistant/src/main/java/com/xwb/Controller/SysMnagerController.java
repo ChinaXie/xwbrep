@@ -85,11 +85,11 @@ public class SysMnagerController extends BasicController{
 		if(findUser == null ) {
 			return SysMnagerController.RESULT_USER_NOT_FIND;			
 		}else {
-			request.getSession().setAttribute("tbluser", findUser);
 			String AUTH_CODE = (String) request.getSession().getAttribute("AUTH_CODE");
 			if(!AUTH_CODE.equals(authcode)){
 				return SysMnagerController.RESULT_USER_AUTHCODE_ERROR;
 			}else {
+				request.getSession().setAttribute("tbluser", findUser);
 				return SysMnagerController.RESULT_USER_LOGIN_SUCCESS;
 			}
 		}
