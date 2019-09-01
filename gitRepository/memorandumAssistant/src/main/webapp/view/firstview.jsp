@@ -179,9 +179,11 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
    <ul>
     <li><a href="javaScript:goHome();">Home</a></li>
     <li><div class="gap"></div></li>
+   <li><a href="javaScript:addM();" style="margin-left: 5%;" >AddMemorandum</a></li>
+   <li><div class="gap"></div></li>
+   <li><a href="javaScript:showUserList();" style="margin-left: 5%;" >UserList</a></li>
+   <li><div class="gap"></div></li>
     <li><a href="javaScript:showlist();" style="margin-left: 5%;" >AccountList</a></li>
-    <li><div class="gap"></div></li>
-    <li><a href="javaScript:addM();" style="margin-left: 5%;" >AddMemorandum</a></li>
     <li><div class="gap"></div></li>
     <li><a href="javaScript:logout();" style="margin-left: 5%;" >logout</a></li>
     <li><div class="gap"></div></li>
@@ -210,6 +212,13 @@ function goHome(){
 }
 
 /**
+ * 显示用户列表信息
+ * */
+function showUserList(){
+	location.href="<%=basePath %>/sysManager/userlist.do";
+}
+
+/**
  * 显示账目清单信息
  */
 function showlist(){
@@ -219,7 +228,7 @@ function showlist(){
  * 新增备忘事件
  */
 function addM(){
-	layer_show('500','500','新增备忘事件',"<%=basePath %>/headpage/toAdd.do?user_key=${user_key}");
+	layer_show('500','500','新增备忘事项',"<%=basePath %>/headpage/toAdd.do?user_key=${user_key}");
 }
 /**
  * 打开城市地区选择弹框

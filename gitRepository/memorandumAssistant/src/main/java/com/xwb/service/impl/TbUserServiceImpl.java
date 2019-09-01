@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.xwb.common.PageListDTO;
+import com.xwb.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +27,6 @@ import com.xwb.mappers.TbProvinceMapper;
 import com.xwb.mappers.TbUserMapper;
 import com.xwb.mappers.TbWeatherMapper;
 import com.xwb.mappers.TbZhishuMapper;
-import com.xwb.model.TbCity;
-import com.xwb.model.TbCounty;
-import com.xwb.model.TbForecast;
-import com.xwb.model.TbMemorandum;
-import com.xwb.model.TbProvince;
-import com.xwb.model.TbUser;
-import com.xwb.model.TbWeather;
-import com.xwb.model.TbZhishu;
 import com.xwb.service.TbUserService;
 
 @Service
@@ -86,6 +80,10 @@ public class TbUserServiceImpl implements TbUserService {
 
 	public TbUser findUser(String loginName, Integer password) {
 		return tbUserMapper.selectUser(loginName, password);
+	}
+
+	public List<TbUser> findUserList() {
+		return tbUserMapper.selectAllUser();
 	}
 
 	public void updateTbUser(TbUser tbUser) {
@@ -269,6 +267,18 @@ public class TbUserServiceImpl implements TbUserService {
 			tbCountyMapper.insert(countmodel);
 		}
 		
+	}
+
+	public PageListDTO<TbUser> findTbUserPageList(TbUserDto dto) {
+		PageListDTO<TbUser> pageListDTO = new PageListDTO<TbUser>();
+		if(dto != null){
+			List<TbUser> list = tbUserMapper.findVisitorList(dto);
+			int count = tbUserMapper.findVisitorCount(dto);
+			pageListDTO.setResultList(list);
+			pageListDTO.setListCount(count);
+			pageListDTO.setPageDTO(dto.getPageDTO());
+		}
+		return pageListDTO;
 	}
 
 }

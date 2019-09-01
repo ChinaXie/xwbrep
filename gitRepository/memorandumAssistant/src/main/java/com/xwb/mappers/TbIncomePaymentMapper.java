@@ -27,4 +27,9 @@ public interface TbIncomePaymentMapper {
 	
 	public Double selectIncome(TbIncomePaymentDto dto);
 	public Double selectPayment(TbIncomePaymentDto dto);
+
+    List<TbIncomePayment> selectTbIncomePayment(@Param("userId")int userId,
+                                      @Param("status")int status,
+                                      @Param("beginDate")String beginDate,
+                                      @Param("endDate")String endDate);
 }

@@ -1,10 +1,16 @@
 package com.xwb.Controller;
 
+import com.xwb.common.PageListDTO;
+import com.xwb.model.*;
+import com.xwb.service.RegionService;
+import com.xwb.service.WeatherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.xwb.model.TbUser;
+
+import java.util.List;
 
 /**
  * 项目或者用户相关信息
@@ -20,7 +26,13 @@ public class SysMnagerController extends BasicController{
 	public static final String RESULT_USER_NOT_FIND = "1";
 	public static final String RESULT_USER_LOGIN_SUCCESS = "2";
 	public static final String RESULT_USER_AUTHCODE_ERROR = "3";
-	
+
+
+	private TbUserDto dto = new TbUserDto();
+	@Autowired
+	private RegionService regionService;
+	@Autowired
+	private WeatherService weatherService;
 	/**
 	 * 跳转注册
 	 * @return
@@ -37,6 +49,46 @@ public class SysMnagerController extends BasicController{
 	public String getCodeSave() {
 		tbUserService.getCodeSave();
 		return "OK";
+	}
+
+
+	/**
+	 * 用户列表
+	 * @return
+	 */
+	@RequestMapping("/userlist")
+	public String listUserDatas() {
+		TbUser tbUser = getUserFromSession();
+		request.setAttribute("tbUser", tbUser);
+		if(tbUser != null) {
+			request.setAttribute("user_key", tbUser.getId());
+			//查询城市地区
+			if(tbUser.getCountyCoude() != null) {
+				TbCounty county = regionService.findCountyByCode(tbUser.getProvinceCode(), tbUser.getCityCode(), tbUser.getCountyCoude());
+				request.setAttribute("county", county);
+
+				List<TbWeather> tbWeatherList = weatherService.getTbWeather(tbUser.getProvinceCode()+""+tbUser.getCityCode()+""+tbUser.getCountyCoude());
+				if(tbWeatherList != null && tbWeatherList.size()>0) {
+					TbWeather tbWeather = tbWeatherList.get(0);
+					request.setAttribute("tbWeather", tbWeather);
+					List<TbForecast> forecastList = weatherService.getTbForecasts(tbWeather.getId());
+					request.setAttribute("forecastList", forecastList);
+					List<TbZhishu> tbZhishuList = weatherService.getTbZhishu(tbWeather.getId());
+					request.setAttribute("tbZhishuList", tbZhishuList);
+				}
+			}
+		}
+
+		String pageNum = request.getParameter("pager.offset");
+		String loginName = request.getParameter("loginName");
+		if (pageNum != null) {
+			dto.getPageDTO().setBeginCount(Integer.parseInt(pageNum));
+		}
+		dto.getTbUser().setLoginName(loginName);
+		PageListDTO<TbUser> pageList = tbUserService.findTbUserPageList(dto);
+		request.setAttribute("loginName",loginName);
+		request.setAttribute("pageList", pageList);
+		return "/userlist";
 	}
 	
 	

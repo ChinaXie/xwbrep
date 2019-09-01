@@ -1,9 +1,8 @@
 package com.xwb.mappers;
 
 import java.util.List;
-
+import com.xwb.model.TbUserDto;
 import org.apache.ibatis.annotations.Param;
-
 import com.xwb.model.TbUser;
 
 public interface TbUserMapper {
@@ -26,5 +25,8 @@ public interface TbUserMapper {
     TbUser selectUser(@Param("loginName")String loginName,@Param("password")Integer password);
     
     List<TbUser> selectAllUser();
+
+    List<TbUser> findVisitorList(TbUserDto dto);
+    int findVisitorCount(TbUserDto dto);
     
 }

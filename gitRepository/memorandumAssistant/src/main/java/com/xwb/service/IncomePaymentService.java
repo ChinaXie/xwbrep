@@ -19,4 +19,6 @@ public interface IncomePaymentService {
 	Double selectPayment(TbIncomePaymentDto dto);
 	
 	void deleteTbIncomePayment(Integer id);
+
+	List<TbIncomePayment> selectDatas(int userId,int status,String beginDate,String endDate);
 }

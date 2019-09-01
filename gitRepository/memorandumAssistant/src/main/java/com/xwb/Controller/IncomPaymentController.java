@@ -1,11 +1,13 @@
 package com.xwb.Controller;
 
-
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import com.alibaba.druid.util.StringUtils;
+import com.mysql.cj.xdevapi.JsonArray;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,9 @@ public class IncomPaymentController extends BasicController{
 	public static final int ACCOUNT_STATUS_PAYMENT = 2;
 	public static final String RESULT_STATUS_OK = "1";
 	public static final String RESULT_STATUS_ERROR = "0";
+
+	public static final String YEAR_TYPE = "1";
+	public static final String MONTH_TYPE = "2";
 	
 	private TbIncomePaymentDto dto = new TbIncomePaymentDto();
 	
@@ -161,11 +166,188 @@ public class IncomPaymentController extends BasicController{
 		}
 		return "/chargetoaccount";				
 	}
+
+	/**
+	 * 跳转至图表分析
+	 * @return
+	 */
+	@RequestMapping("/toanalysis")
+	public String toanalysis() {
+		TbUser tbUser = getUserFromSession();
+		if(tbUser == null) {
+			return null;
+		}
+		request.setAttribute("user_key", tbUser.getId());
+		String stype = request.getParameter("stype");
+		String ybeginDate = request.getParameter("ybeginDate");
+		String yendDate = request.getParameter("yendDate");
+		String beginDate = request.getParameter("beginDate");
+		String endDate = request.getParameter("endDate");
+		Map<String, BigDecimal> incomedatamap = new HashMap<String,BigDecimal>();
+		Map<String, BigDecimal> outcomedatamap = new HashMap<String,BigDecimal>();
+		JSONArray xseris = new JSONArray();
+		SimpleDateFormat sdfyear = new SimpleDateFormat("yyyy");
+		SimpleDateFormat sdfmonth = new SimpleDateFormat("yyyy-MM");
+		if(IncomPaymentController.YEAR_TYPE.equals(stype) ) {
+			if(StringUtils.isEmpty(ybeginDate) || StringUtils.isEmpty(yendDate)){
+				return null;
+			}
+			List<TbIncomePayment> tbIncomePayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_INCOME, ybeginDate, beginDate);
+			for (TbIncomePayment tbIncomePayment :tbIncomePayments){
+				String yearstr = sdfyear.format(tbIncomePayment.getAddTime());
+				BigDecimal b1 = new BigDecimal("0.00");
+				if(incomedatamap.get(yearstr) != null){
+					b1 = incomedatamap.get(yearstr);
+				}
+				Double costNum = tbIncomePayment.getCostNum();
+				BigDecimal b2 = new BigDecimal(costNum.toString());
+				BigDecimal sumCostNum = b1.add(b2);
+				incomedatamap.put(yearstr,sumCostNum);
+			}
+			List<TbIncomePayment> tbPayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_PAYMENT, ybeginDate, beginDate);
+			for(TbIncomePayment model :tbPayments){
+				String ystr = sdfyear.format(model.getAddTime());
+				BigDecimal bd1 = new BigDecimal("0.00");
+				if(outcomedatamap.get(ystr) != null){
+					bd1 = outcomedatamap.get(ystr);
+				}
+				Double costNum = model.getCostNum();
+				BigDecimal bd2 = new BigDecimal(costNum.toString());
+				BigDecimal sumCostNum = bd1.add(bd2);
+				outcomedatamap.put(ystr,sumCostNum);
+			}
+			int syear = Integer.parseInt(ybeginDate);
+			int eyear = Integer.parseInt(yendDate);
+			JSONArray inseris = new JSONArray();
+			JSONArray outseris = new JSONArray();
+			for(int i= syear;i<=eyear;i++){
+				xseris.add(String.valueOf(i));
+				BigDecimal indata = incomedatamap.get(String.valueOf(i));
+				if(indata!=null){
+					inseris.add(indata.doubleValue());
+				}else{
+					inseris.add(Double.parseDouble("0.00"));
+				}
+				BigDecimal outdata = outcomedatamap.get(String.valueOf(i));
+				if(outdata!=null){
+					outseris.add(outdata.doubleValue());
+				}else{
+					outseris.add(Double.parseDouble("0.00"));
+				}
+			}
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("name","收入");
+			tempMap.put("data",inseris);
+			JSONObject injsonObject = JSONObject.fromObject(tempMap);
+			Map<String, Object> tempMap2 = new HashMap<String, Object>();
+			tempMap2.put("name","支出");
+			tempMap2.put("data",outseris);
+			JSONObject outjsonObject = JSONObject.fromObject(tempMap2);
+			JSONArray series = new JSONArray();
+			series.add(injsonObject);
+			series.add(outjsonObject);
+			request.setAttribute("series",series.toString());
+			request.setAttribute("xseris",xseris.toString());
+		}
+
+		if(IncomPaymentController.MONTH_TYPE.equals(stype) ) {
+			if(StringUtils.isEmpty(beginDate) || StringUtils.isEmpty(endDate)){
+				return null;
+			}
+			List<TbIncomePayment> tbIncomePayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_INCOME, beginDate, endDate);
+			for (TbIncomePayment tbIncomePayment :tbIncomePayments){
+				String monthstr = sdfmonth.format(tbIncomePayment.getAddTime());
+				BigDecimal b1 = new BigDecimal("0.00");
+				if(incomedatamap.get(monthstr) != null){
+					b1 = incomedatamap.get(monthstr);
+				}
+				Double costNum = tbIncomePayment.getCostNum();
+				BigDecimal b2 = new BigDecimal(costNum.toString());
+				BigDecimal sumCostNum = b1.add(b2);
+				incomedatamap.put(monthstr,sumCostNum);
+			}
+			List<TbIncomePayment> tbPayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_PAYMENT, beginDate, endDate);
+			for(TbIncomePayment model :tbPayments){
+				String mstr = sdfmonth.format(model.getAddTime());
+				BigDecimal bd1 = new BigDecimal("0.00");
+				if(outcomedatamap.get(mstr) != null){
+					bd1 = outcomedatamap.get(mstr);
+				}
+				Double costNum = model.getCostNum();
+				BigDecimal bd2 = new BigDecimal(costNum.toString());
+				BigDecimal sumCostNum = bd1.add(bd2);
+				outcomedatamap.put(mstr,sumCostNum);
+			}
+
+
+			String[] beginDateStr = beginDate.split("-");
+			String[] endDateStr = endDate.split("-");
+			int staryear = Integer.parseInt(beginDateStr[0]);
+			int endyear = Integer.parseInt(endDateStr[0]);
+			JSONArray inseris = new JSONArray();
+			JSONArray outseris = new JSONArray();
+			int tempmonth=Integer.parseInt(beginDateStr[1]);
+			int endtempmonth = Integer.parseInt(endDateStr[1]);
+
+			for(int i=staryear;i<=endyear;i++) {
+				boolean monthflag = true;
+				while (monthflag) {
+					xseris.add(i + "年" + tempmonth + "月");
+					String tempmonthstr = "";
+					if(tempmonth<10){
+						tempmonthstr = "0"+tempmonth;
+					}
+					BigDecimal indata = incomedatamap.get(i+"-"+tempmonthstr);
+					if(indata!=null){
+						inseris.add(indata.doubleValue());
+					}else{
+						inseris.add(Double.parseDouble("0.00"));
+					}
+					BigDecimal outdata = outcomedatamap.get(i+"-"+tempmonthstr);
+					if(outdata!=null){
+						outseris.add(outdata.doubleValue());
+					}else{
+						outseris.add(Double.parseDouble("0.00"));
+					}
+
+					if (i == endyear && tempmonth == endtempmonth) {
+						monthflag = false;
+					} else if (tempmonth == 12) {
+						monthflag = false;
+						tempmonth = 0;
+					}
+					tempmonth++;
+				}
+			}
+
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("name","收入");
+			tempMap.put("data",inseris);
+			JSONObject injsonObject = JSONObject.fromObject(tempMap);
+			Map<String, Object> tempMap2 = new HashMap<String, Object>();
+			tempMap2.put("name","支出");
+			tempMap2.put("data",outseris);
+			JSONObject outjsonObject = JSONObject.fromObject(tempMap2);
+			JSONArray series = new JSONArray();
+			series.add(injsonObject);
+			series.add(outjsonObject);
+			request.setAttribute("series",series.toString());
+			request.setAttribute("xseris",xseris.toString());
+		}
+
+		request.setAttribute("stype",stype);
+		request.setAttribute("ybeginDate",ybeginDate);
+		request.setAttribute("yendDate",yendDate);
+		request.setAttribute("beginDate",beginDate);
+		request.setAttribute("endDate",endDate);
+
+		return "/accountchart";
+	}
 	
 	
 	/**
 	 * 保存
-	 * @param tbMemorandum
+	 * @param tbIncomePayment
 	 * @return
 	 */
 	@RequestMapping("/saveIncomeAndPayment")

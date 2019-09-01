@@ -185,4 +185,29 @@
     <include refid="Base_Column_List" />
     from tb_user
   </select>
+
+  <select id="findVisitorList" parameterType="com.xwb.model.TbUserDto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    <where>
+      <if test="tbUser.loginName != null">
+        login_name like CONCAT('%',#{tbUser.loginName,jdbcType=VARCHAR})
+      </if>
+    </where>
+    order by id desc
+    <if test="pageDTO != null">
+      limit #{pageDTO.beginCount},#{pageDTO.pageSize}
+    </if>
+  </select>
+
+  <select id="findVisitorCount" parameterType="com.xwb.model.TbUserDto" resultType="int">
+    select count(1)
+    from tb_user
+    <where>
+      <if test="tbUser.loginName != null">
+        login_name like CONCAT('%',#{tbUser.loginName,jdbcType=VARCHAR})
+      </if>
+    </where>
+  </select>
 </mapper>

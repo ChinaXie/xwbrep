@@ -55,5 +55,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
 		tbIncomePaymentMapper.deleteByPrimaryKey(id);
 	}
 
+	public List<TbIncomePayment> selectDatas(int userId, int status, String beginDate, String endDate) {
+		return tbIncomePaymentMapper.selectTbIncomePayment(userId,status,beginDate,endDate);
+	}
+
 
 }

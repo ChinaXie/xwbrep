@@ -145,6 +145,8 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
    <ul>
     <li><a href="javaScript:goHome();">Home</a></li>
     <li><div class="gap"></div></li>
+   <li><a href="javaScript:showUserList();" style="margin-left: 5%;" >UserList</a></li>
+   <li><div class="gap"></div></li>
     <li><a href="javaScript:showlist();" style="margin-left: 5%;" >AccountList</a></li>
     <li><div class="gap"></div></li>
     <li><a href="javaScript:logout();" style="margin-left: 5%;" >logout</a></li>
@@ -205,10 +207,12 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
   </form>
   <aa:zone name="dataListZone">
   <div class="cl pd-5" style="padding-bottom:15px;padding-left:0">
-					 <a href="javascript:;" style="margin-right:5px;" id="btn_vleft" onclick="tocharge();"
-						class="btn btn-primaryleft size-s radius"><i class="icon-plus"></i>
-							记账</a>
-					 
+         <a href="javascript:;" style="margin-right:5px;" id="btn_vleft" onclick="tocharge();"
+            class="btn btn-primaryleft size-s radius"><i class="icon-plus"></i>
+                记账</a>
+          <a href="javascript:;" style="margin-left: 5px;margin-right:5px;" id="btn_vleft2" onclick="toanalysis();"
+             class="btn btn-primaryleft size-s radius"><i class=" icon-picture"></i>
+              图表分析</a>
   </div>
   <table class="table table-border table-bordered table-hover table-bg table-sort emoji">
     <thead>    
@@ -312,6 +316,13 @@ function goHome(){
 }
 
 /**
+ * 显示用户列表信息
+ * */
+function showUserList(){
+	location.href="<%=basePath %>/sysManager/userlist.do";
+}
+
+/**
  * 显示账目清单信息
  */
 function showlist(){
@@ -351,6 +362,10 @@ function logout(){
  */
  function tocharge(){
 	 layer_show('500','500','记账',"<%=basePath %>/accountinfo/tocharge.do");
+}
+
+function toanalysis(){
+	layer_show('1000','500','图表分析',"<%=basePath %>/accountinfo/toanalysis.do");
 }
  
  /**
