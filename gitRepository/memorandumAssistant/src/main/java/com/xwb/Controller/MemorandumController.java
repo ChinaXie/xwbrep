@@ -113,6 +113,7 @@ public class MemorandumController extends BasicController{
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		if(lsit != null) {
 			for(TbMemorandum tbMemorandum:lsit) {
+				//封装fullCalendar插件数据
 				EventObjectMode model = new EventObjectMode();
 				model.setTitle(tbMemorandum.getTitleName());
 				if(tbMemorandum.getStartTime() != null && !"".equals(tbMemorandum.getStartTime())) {
@@ -121,10 +122,12 @@ public class MemorandumController extends BasicController{
 				if(tbMemorandum.getEndTime() != null && !"".equals(tbMemorandum.getEndTime())) {
 					model.setEnd(sdf1.format(tbMemorandum.getEndTime()));
 				}
-				model.setUrl("javaScript:layer_show('500','500','查看或修改备忘事件','"+basePath+"/headpage/toEdit.do?memorandumId="+tbMemorandum.getId()+"');");
+				model.setUrl("javaScript:layer_show('500','500','查看或修改备忘事件','"+basePath+"/headpage/toEdit.do?memorandumId="
+				+tbMemorandum.getId()+"');");
 				eventObjectModeList.add(model);
 			}
 		}
+		//设置封装结果参数在request域
 		request.setAttribute("eventObjectModeList",JSONArray.toJSONString(eventObjectModeList));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		request.setAttribute("defaultDate", sdf.format(new Date()));
@@ -179,6 +182,7 @@ public class MemorandumController extends BasicController{
 	@ResponseBody
 	public String saveTbMemorandum(TbMemorandum tbMemorandum) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		//格式化时间参数
 		String result = "1";
 		try {
 			if(tbMemorandum != null && tbMemorandum.getStartTimeStr() !=null && !"".equals(tbMemorandum.getStartTimeStr())) {
@@ -190,8 +194,10 @@ public class MemorandumController extends BasicController{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		//判断是添加还是修改操作
 		if(tbMemorandum.getId() == null ) {
 			try {
+				//执行添加
 				tbMemorandumService.saveTbMemorandum(tbMemorandum);
 			} catch (Exception e) {
 				result = "0";
@@ -200,13 +206,12 @@ public class MemorandumController extends BasicController{
 			return result;
 		}
 		try {
+			//执行修改
 			tbMemorandumService.updateTbMemorandum(tbMemorandum);
 		} catch (Exception e) {
 			result = "0";
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
-	
+	}	
 }

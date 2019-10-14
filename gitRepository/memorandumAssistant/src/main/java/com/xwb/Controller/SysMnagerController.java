@@ -130,17 +130,20 @@ public class SysMnagerController extends BasicController{
 	@ResponseBody
 	public String login(String loginName,String password,String authcode) {
 		TbUser findUser = null;
+		//根据用户名和密码查询tb_user表
 		if(loginName != null && !"".equals(loginName) && password != null && !"".equals(password)) {
 			findUser = tbUserService.findUser(loginName, Integer.parseInt(password));
 		}
-		
+		//判断用户名或者和手机号是否重复
 		if(findUser == null ) {
 			return SysMnagerController.RESULT_USER_NOT_FIND;			
 		}else {
 			String AUTH_CODE = (String) request.getSession().getAttribute("AUTH_CODE");
+			//判断验证码参数是否正确
 			if(!AUTH_CODE.equals(authcode)){
 				return SysMnagerController.RESULT_USER_AUTHCODE_ERROR;
 			}else {
+				//记录当前登陆用户，保存在会话Session
 				request.getSession().setAttribute("tbluser", findUser);
 				return SysMnagerController.RESULT_USER_LOGIN_SUCCESS;
 			}

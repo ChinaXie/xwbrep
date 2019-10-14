@@ -3,6 +3,7 @@ package com.xwb.model;
 import java.util.Date;
 
 public class TbUser {
+	
     private Integer id;
 
     private String userName;

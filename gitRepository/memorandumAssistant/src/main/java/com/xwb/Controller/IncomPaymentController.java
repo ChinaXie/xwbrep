@@ -353,6 +353,7 @@ public class IncomPaymentController extends BasicController{
 	@RequestMapping("/saveIncomeAndPayment")
 	@ResponseBody
 	public String saveIncomeAndPayment(TbIncomePayment tbIncomePayment) {
+		//获取当前登陆用户
 		TbUser tbUser = getUserFromSession();
 		String result = IncomPaymentController.RESULT_STATUS_OK;
 		tbIncomePayment.setAddTime(new Date());
@@ -360,6 +361,7 @@ public class IncomPaymentController extends BasicController{
 			tbIncomePayment.setUserId(tbUser.getId());
 		}
 		try {
+			//保存TbIncomePayment对象数据
 			incomePaymentService.saveTbIncomePayment(tbIncomePayment);
 		} catch (Exception e) {
 			e.printStackTrace();
