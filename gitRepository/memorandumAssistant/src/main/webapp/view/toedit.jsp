@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="show-frame-wrap">
     <form action="" method="post" class="form form-horizontal" name="searchForm" id="searchForm" onsubmit="">
     	<div class="row cl">
-        <label class="form-label col-3"><span class="c-red">*</span>事件主题：</label>
+        <label class="form-label col-3"><span class="c-red">*</span>事项主题：</label>
         <div class="formControls col-5">
                <input id="titleName" name="titleName" class="input-text" maxlength="35" datatype="*" nullmsg="事件主题不能为空" value="${tbMemorandum.titleName}"/>
         </div>
