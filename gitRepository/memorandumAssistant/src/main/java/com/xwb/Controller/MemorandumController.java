@@ -122,7 +122,7 @@ public class MemorandumController extends BasicController{
 				if(tbMemorandum.getEndTime() != null && !"".equals(tbMemorandum.getEndTime())) {
 					model.setEnd(sdf1.format(tbMemorandum.getEndTime()));
 				}
-				model.setUrl("javaScript:layer_show('500','500','查看或修改备忘事件','"+basePath+"/headpage/toEdit.do?memorandumId="
+				model.setUrl("javaScript:layer_show('500','500','查看/修改备忘事项','"+basePath+"/headpage/toEdit.do?memorandumId="
 				+tbMemorandum.getId()+"');");
 				eventObjectModeList.add(model);
 			}
