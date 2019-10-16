@@ -221,7 +221,7 @@ public class TbUserServiceImpl implements TbUserService {
 						MMap map = new MMap();
 						map.setObj1("252556");
 						map.setObj2("admin");
-						map.setObj3("wbxluna2046");
+						map.setObj3("Wbxluna$2046");
 						sbf.append(tbUser.getLoginName());
 						sbf.append("您好，您有");
 						sbf.append(sdftwo.format(tbMemorandum.getStartTime()));
