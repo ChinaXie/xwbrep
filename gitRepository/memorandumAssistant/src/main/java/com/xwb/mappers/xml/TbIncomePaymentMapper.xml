@@ -225,7 +225,7 @@
         </if>
 
         <if test="endDate != null and endDate !='' ">
-            <![CDATA[    and add_time <  #{endDate} ]]>
+            <![CDATA[    and add_time <=  #{endDate} ]]>
         </if>
     </select>
   

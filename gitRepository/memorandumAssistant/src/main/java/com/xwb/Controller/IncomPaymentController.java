@@ -192,7 +192,7 @@ public class IncomPaymentController extends BasicController{
 			if(StringUtils.isEmpty(ybeginDate) || StringUtils.isEmpty(yendDate)){
 				return null;
 			}
-			List<TbIncomePayment> tbIncomePayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_INCOME, ybeginDate, beginDate);
+			List<TbIncomePayment> tbIncomePayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_INCOME, ybeginDate, yendDate);
 			for (TbIncomePayment tbIncomePayment :tbIncomePayments){
 				String yearstr = sdfyear.format(tbIncomePayment.getAddTime());
 				BigDecimal b1 = new BigDecimal("0.00");
@@ -204,7 +204,7 @@ public class IncomPaymentController extends BasicController{
 				BigDecimal sumCostNum = b1.add(b2);
 				incomedatamap.put(yearstr,sumCostNum);
 			}
-			List<TbIncomePayment> tbPayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_PAYMENT, ybeginDate, beginDate);
+			List<TbIncomePayment> tbPayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_PAYMENT, ybeginDate, yendDate);
 			for(TbIncomePayment model :tbPayments){
 				String ystr = sdfyear.format(model.getAddTime());
 				BigDecimal bd1 = new BigDecimal("0.00");
@@ -254,6 +254,8 @@ public class IncomPaymentController extends BasicController{
 			if(StringUtils.isEmpty(beginDate) || StringUtils.isEmpty(endDate)){
 				return null;
 			}
+			beginDate = beginDate+"-01";
+			endDate = endDate +"-31";
 			List<TbIncomePayment> tbIncomePayments = incomePaymentService.selectDatas(tbUser.getId(), IncomPaymentController.ACCOUNT_STATUS_INCOME, beginDate, endDate);
 			for (TbIncomePayment tbIncomePayment :tbIncomePayments){
 				String monthstr = sdfmonth.format(tbIncomePayment.getAddTime());
@@ -296,6 +298,8 @@ public class IncomPaymentController extends BasicController{
 					String tempmonthstr = "";
 					if(tempmonth<10){
 						tempmonthstr = "0"+tempmonth;
+					}else {
+						tempmonthstr = String.valueOf(tempmonth);
 					}
 					BigDecimal indata = incomedatamap.get(i+"-"+tempmonthstr);
 					if(indata!=null){
@@ -333,6 +337,8 @@ public class IncomPaymentController extends BasicController{
 			series.add(outjsonObject);
 			request.setAttribute("series",series.toString());
 			request.setAttribute("xseris",xseris.toString());
+			beginDate = beginDateStr[0]+beginDateStr[1];
+		    endDate = endDateStr[0]+endDateStr[1];
 		}
 
 		request.setAttribute("stype",stype);

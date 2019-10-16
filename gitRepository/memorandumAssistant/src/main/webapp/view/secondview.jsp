@@ -145,8 +145,10 @@ int hour = cad.get(Calendar.HOUR_OF_DAY);
    <ul>
     <li><a href="javaScript:goHome();">Home</a></li>
     <li><div class="gap"></div></li>
+   <c:if test="${tbUser.id eq 2}">
    <li><a href="javaScript:showUserList();" style="margin-left: 5%;" >UserList</a></li>
    <li><div class="gap"></div></li>
+   </c:if>
     <li><a href="javaScript:showlist();" style="margin-left: 5%;" >AccountList</a></li>
     <li><div class="gap"></div></li>
     <li><a href="javaScript:logout();" style="margin-left: 5%;" >logout</a></li>
