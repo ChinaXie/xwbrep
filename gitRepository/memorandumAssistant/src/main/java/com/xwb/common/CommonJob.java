@@ -33,7 +33,7 @@ public class CommonJob{
     }
 	
 	//@Scheduled(cron="0 */1 * * * ?")   //每分钟1次
-	@Scheduled(cron="0 0 1 * * ?")   //每天一点执行
+	@Scheduled(cron="0 0 8 * * ?")   //每天一点执行
 	public void sendMsgToUsers() {
 		System.out.println("定时器开始发送短信-------------");
 		try {
